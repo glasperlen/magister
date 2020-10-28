@@ -12,4 +12,11 @@ public struct Points: Codable {
         left = points[2]
         right = points[3]
     }
+    
+    init(top: Int = 0, bottom: Int = 0, left: Int = 0, right: Int = 0) {
+        self.top = top
+        self.bottom = bottom
+        self.left = left
+        self.right = right
+    }
 }
