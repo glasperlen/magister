@@ -12,6 +12,10 @@ public struct Board {
         }
         set {
             cells[x * 3 + y].active = newValue
+            if x > 0 {
+                self[.first].score -= 1
+                self[.second].score += 1
+            }
         }
     }
     
