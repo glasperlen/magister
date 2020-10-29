@@ -9,7 +9,7 @@ final class PlayTests: XCTestCase {
     }
     
     func testFirstMove() {
-        board[0, 0] = .init(.init())
+        board[0, 0] = .init(order: .first, bead: .init(.init()))
         XCTAssertEqual(0, board[.first].score)
         XCTAssertEqual(0, board[.second].score)
     }

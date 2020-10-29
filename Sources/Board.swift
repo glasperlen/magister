@@ -1,17 +1,17 @@
 import Foundation
 
-public final class Board {
+public struct Board {
     private(set) var players = Set([Player(order: .first), .init(order: .second)])
     private var cells = Array(repeating: Cell(), count: 9)
     
     public init() { }
     
-    subscript(_ x: Int, _ y: Int) -> Bead? {
+    subscript(_ x: Int, _ y: Int) -> Cell.Active? {
         get {
-            cells[x * 3 + y].bead
+            cells[x * 3 + y].active
         }
         set {
-            cells[x * 3 + y].bead = newValue
+            cells[x * 3 + y].active = newValue
         }
     }
     
