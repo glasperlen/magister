@@ -6,7 +6,7 @@ public struct Board {
     
     public init() { }
     
-    subscript(_ x: Int, _ y: Int) -> Cell.Active? {
+    public subscript(_ x: Int, _ y: Int) -> Cell.Active? {
         get {
             cells[x * 3 + y].active
         }
@@ -19,7 +19,7 @@ public struct Board {
         }
     }
     
-    subscript(_ order: Player.Order) -> Player {
+    public subscript(_ order: Player.Order) -> Player {
         get {
             players.first { $0.order == order }!
         }

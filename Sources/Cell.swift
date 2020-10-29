@@ -1,5 +1,5 @@
 import Foundation
 
-struct Cell {
-    var active: Active?
+public struct Cell {
+    public var active: Active?
 }

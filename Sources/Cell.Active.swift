@@ -1,8 +1,8 @@
 import Foundation
 
 extension Cell {
-    struct Active {
-        var order: Player.Order
-        let bead: Bead
+    public struct Active {
+        public var order: Player.Order
+        public let bead: Bead
     }
 }
