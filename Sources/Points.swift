@@ -1,6 +1,7 @@
 import Foundation
 
 public struct Points: Codable {
+    var sum: Int { top + bottom + left + right }
     public let top: Int
     public let bottom: Int
     public let left: Int

@@ -1,10 +1,13 @@
 import Foundation
 
 public struct Bead: Codable, Hashable {
-    let points: Points
-    private let id: UUID
-    
-    init(_ points: Points) {
+    public var tier: Int { points.sum }
+    public let color: Color
+    public let points: Points
+    public let id: UUID
+
+    init(_ color: Color, _ points: Points) {
+        self.color = color
         self.points = points
         id = .init()
     }
