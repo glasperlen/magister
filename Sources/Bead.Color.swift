@@ -3,6 +3,8 @@ import Foundation
 extension Bead {
     public enum Color: String, Codable, CaseIterable {
         case
+        blue,
+        pink,
         red,
         orange,
         green,
