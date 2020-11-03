@@ -10,7 +10,7 @@ public struct Factory {
                 $0.1 -= $0.0[$1]
             }.0
         }.shuffled().map(Points.init).map {
-            .init(Bead.Color.allCases[.random(in: 0 ..< Bead.Color.allCases.count)], $0)
+            .init(points: $0)
         })
     }
     

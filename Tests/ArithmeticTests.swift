@@ -2,37 +2,37 @@ import XCTest
 @testable import Magister
 
 final class ArithmeticTests: XCTestCase {
-    private var board: Board!
+    private var match: Match!
     
     override func setUp() {
-        board = .init()
+        match = .init()
     }
     
     func testDistance() {
-        board[0, 0] = .init(order: .first, bead: .init(.red, .init()))
-        board[2, 0] = .init(order: .second, bead: .init(.red, .init(left: 1)))
-        XCTAssertEqual(0, board[.first].score)
-        XCTAssertEqual(0, board[.second].score)
+        match[0, 0] = .init()
+        match[2, 0] = .init(points: .init(left: 1))
+        XCTAssertEqual(0, match[.user])
+        XCTAssertEqual(0, match[.oponent])
     }
     
     func testGreater() {
-        board[0, 0] = .init(order: .first, bead: .init(.red, .init()))
-        board[1, 0] = .init(order: .second, bead: .init(.red, .init(left: 1)))
-        XCTAssertEqual(-1, board[.first].score)
-        XCTAssertEqual(1, board[.second].score)
+        match[0, 0] = .init()
+        match[1, 0] = .init(points: .init(left: 1))
+        XCTAssertEqual(-1, match[match.turn])
+        XCTAssertEqual(1, match[match.turn.next])
     }
     
     func testLess() {
-        board[0, 0] = .init(order: .first, bead: .init(.red, .init(right: 1)))
-        board[1, 0] = .init(order: .second, bead: .init(.red, .init(left: 0)))
-        XCTAssertEqual(0, board[.first].score)
-        XCTAssertEqual(0, board[.second].score)
+        match[0, 0] = .init(points: .init(left: 1))
+        match[1, 0] = .init()
+        XCTAssertEqual(0, match[.user])
+        XCTAssertEqual(0, match[.oponent])
     }
     
     func testEqual() {
-        board[0, 0] = .init(order: .first, bead: .init(.red, .init()))
-        board[1, 0] = .init(order: .second, bead: .init(.red, .init()))
-        XCTAssertEqual(0, board[.first].score)
-        XCTAssertEqual(0, board[.second].score)
+        match[0, 0] = .init(points: .init(left: 1))
+        match[1, 0] = .init(points: .init(left: 1))
+        XCTAssertEqual(0, match[.user])
+        XCTAssertEqual(0, match[.oponent])
     }
 }

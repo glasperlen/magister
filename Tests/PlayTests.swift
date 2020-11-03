@@ -2,25 +2,27 @@ import XCTest
 @testable import Magister
 
 final class PlayTests: XCTestCase {
-    private var board: Board!
+    private var match: Match!
     
     override func setUp() {
-        board = .init()
+        match = .init()
     }
     
     func testFirstMove() {
-        board[0, 0] = .init(order: .first, bead: .init(.red, .init()))
-        XCTAssertEqual(0, board[.first].score)
-        XCTAssertEqual(0, board[.second].score)
-        XCTAssertEqual(.first, board[0, 0]?.order)
+        let first = match.turn
+        match[0, 0] = .init()
+        XCTAssertEqual(0, match[.user])
+        XCTAssertEqual(0, match[.oponent])
+        XCTAssertEqual(first, match.board[0, 0]?.player)
+        XCTAssertNotEqual(first, match.turn)
     }
     
     func testSecondMove() {
-        board[0, 0] = .init(order: .first, bead: .init(.red, .init()))
-        board[1, 0] = .init(order: .second, bead: .init(.red, .init(left: 1)))
-        XCTAssertEqual(-1, board[.first].score)
-        XCTAssertEqual(1, board[.second].score)
-        XCTAssertEqual(.first, board[0, 0]?.order)
-        XCTAssertEqual(.second, board[1, 0]?.order)
+        match[0, 0] = .init()
+        match[1, 0] = .init(points: .init(left: 1))
+        XCTAssertEqual(-1, match[match.turn])
+        XCTAssertEqual(1, match[match.turn.next])
+        XCTAssertEqual(match.turn, match.board[0, 0]?.player)
+        XCTAssertEqual(match.turn.next, match.board[1, 0]?.player)
     }
 }

@@ -12,5 +12,9 @@ extension Bead {
         teal,
         purple,
         indigo
+        
+        static var random: Self {
+            allCases.randomElement()!
+        }
     }
 }

@@ -2,9 +2,9 @@ import XCTest
 @testable import Magister
 
 final class CartesianTests: XCTestCase {
-    private var board: Board!
+    private var match: Match!
     
     override func setUp() {
-        board = .init()
+        match = .init()
     }
 }

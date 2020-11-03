@@ -1,14 +1,18 @@
 import Foundation
 
-public struct Player: Hashable {
-    public var score = 0
-    let order: Order
+public enum Player: CaseIterable {
+    case
+    user,
+    oponent
     
-    public func hash(into: inout Hasher) {
-        into.combine(order)
+    static var random: Self {
+        allCases.randomElement()!
     }
     
-    public static func == (lhs: Self, rhs: Self) -> Bool {
-        lhs.order == rhs.order
+    var next: Self {
+        switch self {
+        case .user: return .oponent
+        case .oponent: return .user
+        }
     }
 }

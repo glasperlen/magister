@@ -6,7 +6,7 @@ public struct Bead: Codable, Hashable {
     public let points: Points
     public let id: UUID
 
-    init(_ color: Color, _ points: Points) {
+    init(color: Color = .random, points: Points = .init()) {
         self.color = color
         self.points = points
         id = .init()
