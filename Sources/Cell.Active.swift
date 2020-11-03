@@ -2,7 +2,7 @@ import Foundation
 
 extension Cell {
     public struct Active {
-        public let player: Player
+        public internal(set) var player: Player
         public let bead: Bead
     }
 }

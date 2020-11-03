@@ -22,7 +22,7 @@ final class PlayTests: XCTestCase {
         match[1, 0] = .init(points: .init(left: 1))
         XCTAssertEqual(-1, match[match.turn])
         XCTAssertEqual(1, match[match.turn.next])
-        XCTAssertEqual(match.turn, match.board[0, 0]?.player)
+        XCTAssertEqual(match.turn.next, match.board[0, 0]?.player)
         XCTAssertEqual(match.turn.next, match.board[1, 0]?.player)
     }
 }
