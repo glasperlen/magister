@@ -2,35 +2,35 @@ import Foundation
 
 public struct Match {
     public private(set) var board = Board()
-    public private(set) var turn = Player.random
-    private var score = [Player.user : 0, .oponent : 0]
+    public private(set) var turn = Player.Mode.random
+    private var players: [Player.Mode : Player]
     
-    public init() { }
+    public static func robot(_ deck: [Bead]) -> Self {
+        .init(players: [.user : .user(deck: deck), .oponent : Factory.robot(deck.max { $0.tier > $1.tier }!.tier)])
+    }
     
-    public subscript(_ player: Player) -> Int {
+    public subscript(_ player: Player.Mode) -> Player {
         get {
-            score[player]!
+            players[player]!
         }
         set {
-            score[player] = newValue
+            players[player] = newValue
         }
     }
     
-    public subscript(_ x: Int, _ y: Int) -> Bead {
-        get { fatalError() }
-        set {
-            board[x, y] = .init(player: turn, bead: newValue)
-            Compare.make(bead: newValue, x: x, y: y).forEach {
-                guard
-                    let active = board[$0.compareX, $0.compareY],
-                    active.player != turn,
-                    $0.defeat(active.bead)
-                else { return }
-                self[turn] += 1
-                self[turn.next] -= 1
-                board[$0.compareX, $0.compareY]!.player = turn
-            }
-            turn = turn.next
+    mutating public func place(index: Int, x: Int, y: Int) {
+        let bead = self[turn].deck.remove(at: index)
+        board[x, y] = .init(player: turn, bead: bead)
+        Compare.make(bead: bead, x: x, y: y).forEach {
+            guard
+                let active = board[$0.compareX, $0.compareY],
+                active.player != turn,
+                $0.defeat(active.bead)
+            else { return }
+            self[turn].score += 1
+            self[turn.next].score -= 1
+            board[$0.compareX, $0.compareY]!.player = turn
         }
+        turn = turn.next
     }
 }

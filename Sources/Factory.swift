@@ -1,7 +1,7 @@
 import Foundation
 
 public struct Factory {
-    public static func make(_ count: Int) -> Set<Bead> {
+    public static func beads(_ count: Int) -> Set<Bead> {
         .init((0 ..< count).map { _ in
             points
         }.map {
@@ -12,6 +12,10 @@ public struct Factory {
         }.shuffled().map(Points.init).map {
             .init(points: $0)
         })
+    }
+    
+    static func robot(_ tier: Int) -> Player {
+        .init(deck: .init(beads((tier * 2) + 5).sorted { $0.tier > $1.tier }.prefix(5)), mode: .oponent, name: "Robot\(Int.random(in: 0 ..< 100_000))")
     }
     
     private static var points: Int {

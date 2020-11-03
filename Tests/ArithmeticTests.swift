@@ -5,44 +5,66 @@ final class ArithmeticTests: XCTestCase {
     private var match: Match!
     
     override func setUp() {
-        match = .init()
+        match = .robot([.init()])
     }
     
     func testDistance() {
-        match[0, 0] = .init()
-        match[2, 0] = .init(points: .init(left: 1))
-        XCTAssertEqual(0, match[.user])
-        XCTAssertEqual(0, match[.oponent])
+        match[match.turn].deck = [.init()]
+        match.place(index: 0, x: 0, y: 0)
+        
+        match[match.turn].deck = [.init(points: .init(left: 1))]
+        match.place(index: 0, x: 2, y: 0)
+        
+        XCTAssertEqual(0, match[.user].score)
+        XCTAssertEqual(0, match[.oponent].score)
     }
     
     func testGreater() {
-        match[0, 0] = .init()
-        match[1, 0] = .init(points: .init(left: 1))
-        XCTAssertEqual(-1, match[match.turn])
-        XCTAssertEqual(1, match[match.turn.next])
+        match[match.turn].deck = [.init()]
+        match.place(index: 0, x: 0, y: 0)
+        
+        match[match.turn].deck = [.init(points: .init(left: 1))]
+        match.place(index: 0, x: 1, y: 0)
+        
+        XCTAssertEqual(-1, match[match.turn].score)
+        XCTAssertEqual(1, match[match.turn.next].score)
+        
         XCTAssertEqual(match.turn.next, match.board[0, 0]?.player)
         XCTAssertEqual(match.turn.next, match.board[1, 0]?.player)
     }
     
     func testLess() {
-        match[0, 0] = .init(points: .init(right: 1))
-        match[1, 0] = .init()
-        XCTAssertEqual(0, match[.user])
-        XCTAssertEqual(0, match[.oponent])
+        match[match.turn].deck = [.init(points: .init(right: 1))]
+        match.place(index: 0, x: 0, y: 0)
+        
+        match[match.turn].deck = [.init()]
+        match.place(index: 0, x: 1, y: 0)
+        
+        XCTAssertEqual(0, match[.user].score)
+        XCTAssertEqual(0, match[.oponent].score)
     }
     
     func testEqual() {
-        match[0, 0] = .init(points: .init(right: 1))
-        match[1, 0] = .init(points: .init(left: 1))
-        XCTAssertEqual(0, match[.user])
-        XCTAssertEqual(0, match[.oponent])
+        match[match.turn].deck = [.init(points: .init(right: 1))]
+        match.place(index: 0, x: 0, y: 0)
+        
+        match[match.turn].deck = [.init(points: .init(left: 1))]
+        match.place(index: 0, x: 1, y: 0)
+        
+        XCTAssertEqual(0, match[.user].score)
+        XCTAssertEqual(0, match[.oponent].score)
     }
     
     func testGreaterSamePlayer() {
-        match[0, 0] = .init()
-        match[2, 2] = .init()
-        match[1, 0] = .init(points: .init(left: 1))
-        XCTAssertEqual(0, match[match.turn])
-        XCTAssertEqual(0, match[match.turn.next])
+        match[match.turn].deck = [.init(), .init(points: .init(left: 1))]
+        match.place(index: 0, x: 0, y: 0)
+        
+        match[match.turn].deck = [.init()]
+        match.place(index: 0, x: 2, y: 2)
+        
+        match.place(index: 0, x: 1, y: 0)
+        
+        XCTAssertEqual(0, match[match.turn].score)
+        XCTAssertEqual(0, match[match.turn.next].score)
     }
 }

@@ -1,9 +1,14 @@
 import XCTest
-import Magister
+@testable import Magister
 
 final class FactoryTests: XCTestCase {
-    func testAmount() {
-        XCTAssertEqual(10, Factory.make(10).count)
-        XCTAssertEqual(5, Factory.make(5).count)
+    func testBeads() {
+        XCTAssertEqual(10, Factory.beads(10).count)
+        XCTAssertEqual(5, Factory.beads(5).count)
+    }
+    
+    func testRobot() {
+        XCTAssertEqual(5, Factory.robot(1).deck.count)
+        XCTAssertFalse(Factory.robot(1).name.isEmpty)
     }
 }

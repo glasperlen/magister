@@ -1,18 +1,16 @@
 import Foundation
 
-public enum Player: CaseIterable {
-    case
-    user,
-    oponent
-    
-    static var random: Self {
-        allCases.randomElement()!
+public struct Player {
+    static func robot(deck: [Bead], name: String) -> Self {
+        .init(deck: deck, mode: .oponent, name: name)
     }
     
-    var next: Self {
-        switch self {
-        case .user: return .oponent
-        case .oponent: return .user
-        }
+    static func user(deck: [Bead]) -> Self {
+        .init(deck: deck, mode: .user, name: "")
     }
+    
+    public internal(set) var score = 0
+    public internal(set) var deck: [Bead]
+    public let mode: Mode
+    public let name: String
 }
