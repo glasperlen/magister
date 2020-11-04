@@ -1,9 +1,11 @@
 import Foundation
 
-public struct Match {
+public struct Match: Equatable {
+    public static let off = Match(players: [.user : .none, .oponent : .none])
     public internal(set) var board = Board()
     public internal(set) var turn = Player.Mode.random
     private var players: [Player.Mode : Player]
+    private let id = UUID()
     
     public static func robot(_ deck: [Bead]) -> Self {
         .init(players: [.user : .user(deck: deck), .oponent : Factory.robot(deck.max { $0.tier < $1.tier }!.tier)])
@@ -48,5 +50,9 @@ public struct Match {
             attack.defense(active.bead)
         else { return false }
         return true
+    }
+    
+    public static func == (lhs: Self, rhs: Self) -> Bool {
+        lhs.id == rhs.id
     }
 }
