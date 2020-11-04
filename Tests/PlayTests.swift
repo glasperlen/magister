@@ -22,7 +22,7 @@ final class PlayTests: XCTestCase {
     func testSecondMove() {
         match[match.turn].deck = [.init()]
         match.play(0, .init(x: 0, y: 0))
-        match[match.turn].deck = [.init(points: .init(left: 1))]
+        match[match.turn].deck = [.init(left: 1)]
         match.play(0, .init(x: 1, y: 0))
         XCTAssertEqual(-1, match[match.turn].score)
         XCTAssertEqual(1, match[match.turn.next].score)

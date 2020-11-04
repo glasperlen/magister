@@ -16,7 +16,7 @@ final class CartesianTests: XCTestCase {
                             match[match.turn].deck = [.init()]
                             match.play(0, .init(x: x2, y: y2))
                             
-                            match[match.turn].deck = [.init(points: .init(top: 1, bottom: 1, left: 1, right: 1))]
+                            match[match.turn].deck = [.init(top: 1, bottom: 1, left: 1, right: 1)]
                             match.play(0, .init(x: x1, y: y1))
                             
                             XCTAssertTrue(match[match.turn.next].score == 1 && match[match.turn].score == -1, "\(x1),\(y1) vs \(x2),\(y2)")

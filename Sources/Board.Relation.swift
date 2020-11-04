@@ -1,7 +1,7 @@
 import Foundation
 
 extension Board {
-    enum Relation: Hashable {
+    public enum Relation: String, Codable, Hashable {
         case
         top,
         bottom,

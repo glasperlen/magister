@@ -8,10 +8,10 @@ extension Bead {
         
         func defense(_ with: Bead) -> Bool {
             switch relation {
-            case .top: return bead.points.top > with.points.bottom
-            case .bottom: return bead.points.bottom > with.points.top
-            case .left: return bead.points.left > with.points.right
-            case .right: return bead.points.right > with.points.left
+            case .top: return bead[.top] > with[.bottom]
+            case .bottom: return bead[.bottom] > with[.top]
+            case .left: return bead[.left] > with[.right]
+            case .right: return bead[.right] > with[.left]
             }
         }
         
