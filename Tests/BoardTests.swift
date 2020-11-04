@@ -9,7 +9,7 @@ final class BoardTests: XCTestCase {
     }
     
     func testEmptyAll() {
-        XCTAssertEqual(9, match.board.empty.count)
+        XCTAssertEqual(9, match.board[nil].count)
     }
     
     func testEmptySome() {
@@ -22,9 +22,9 @@ final class BoardTests: XCTestCase {
         match.board[0, 2] = nil
         match.board[1, 1] = nil
         match.board[2, 2] = nil
-        XCTAssertTrue(match.board.empty.contains(.init(x: 0, y: 0)))
-        XCTAssertTrue(match.board.empty.contains(.init(x: 0, y: 2)))
-        XCTAssertTrue(match.board.empty.contains(.init(x: 1, y: 1)))
-        XCTAssertTrue(match.board.empty.contains(.init(x: 2, y: 2)))
+        XCTAssertTrue(match.board[nil].contains(.init(x: 0, y: 0)))
+        XCTAssertTrue(match.board[nil].contains(.init(x: 0, y: 2)))
+        XCTAssertTrue(match.board[nil].contains(.init(x: 1, y: 1)))
+        XCTAssertTrue(match.board[nil].contains(.init(x: 2, y: 2)))
     }
 }

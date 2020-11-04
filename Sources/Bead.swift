@@ -2,8 +2,8 @@ import Foundation
 
 public struct Bead: Codable, Hashable {
     public var tier: Int { self[.top] + self[.bottom] + self[.left] + self[.right] }
-    public let color: Color
     public let id: UUID
+    public let color: Color
     private let relations: [Board.Relation : Int]
     
     init(color: Color = .random, top: Int = 0, bottom: Int = 0, left: Int = 0, right: Int = 0) {

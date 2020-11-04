@@ -9,10 +9,6 @@ public struct Board {
     
     public init() { }
     
-    var empty: Set<Point> {
-        .init(cells.filter { $0.active == nil }.map(\.point))
-    }
-    
     public subscript(_ x: Int, _ y: Int) -> Cell.Active? {
         get { self[.init(x: x, y: y)] }
         set { self[.init(x: x, y: y)] = newValue }
@@ -29,7 +25,7 @@ public struct Board {
         }
     }
     
-    subscript(_ player: Player.Mode) -> Int {
-        cells.filter { $0.active?.player == player }.count
+    subscript(_ player: Player.Mode?) -> Set<Point> {
+        .init(cells.filter { $0.active?.player == player }.map(\.point))
     }
 }
