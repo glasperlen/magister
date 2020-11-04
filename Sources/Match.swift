@@ -1,8 +1,8 @@
 import Foundation
 
 public struct Match {
-    public private(set) var board = Board()
-    public private(set) var turn = Player.Mode.random
+    public internal(set) var board = Board()
+    public internal(set) var turn = Player.Mode.random
     private var players: [Player.Mode : Player]
     
     public static func robot(_ deck: [Bead]) -> Self {
@@ -18,7 +18,11 @@ public struct Match {
         }
     }
     
-    mutating public func place(index: Int, x: Int, y: Int) {
+    mutating public func robot() {
+        play(index: .random(in: 0 ..< self[turn].deck.count), x: .random(in: 0 ..< 3), y: .random(in: 0 ..< 3))
+    }
+    
+    mutating public func play(index: Int, x: Int, y: Int) {
         let bead = self[turn].deck.remove(at: index)
         board[x, y] = .init(player: turn, bead: bead)
         Compare.make(bead: bead, x: x, y: y).forEach {

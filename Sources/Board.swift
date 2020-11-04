@@ -13,4 +13,8 @@ public struct Board {
             cells[x * 3 + y].active = newValue
         }
     }
+    
+    subscript(_ player: Player.Mode) -> Int {
+        cells.filter { $0.active?.player == player }.count
+    }
 }
