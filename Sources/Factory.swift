@@ -9,7 +9,7 @@ public struct Factory {
                 $0.0.append(.random(in: 0 ... $0.1))
                 $0.1 -= $0.0[$1]
             }.0
-        }.shuffled().map(Points.init).map {
+        }.shuffled().map(Bead.Points.init).map {
             .init(points: $0)
         })
     }

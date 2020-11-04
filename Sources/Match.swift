@@ -19,21 +19,21 @@ public struct Match {
     }
     
     mutating public func robot() {
-        play(index: .random(in: 0 ..< self[turn].deck.count), x: .random(in: 0 ..< 3), y: .random(in: 0 ..< 3))
+        play(.random(in: 0 ..< self[turn].deck.count), board.empty.randomElement()!)
     }
     
-    mutating public func play(index: Int, x: Int, y: Int) {
+    mutating public func play(_ index: Int, _ point: Board.Point) {
         let bead = self[turn].deck.remove(at: index)
-        board[x, y] = .init(player: turn, bead: bead)
-        Compare.make(bead, .init(x: x, y: y)).forEach {
+        board[point] = .init(player: turn, bead: bead)
+        point.attacks(bead).forEach {
             guard
-                let active = board[$0.compare.x, $0.compare.y],
+                let active = board[$0.point],
                 active.player != turn,
-                $0.defeat(active.bead)
+                $0.defense(active.bead)
             else { return }
             self[turn].score += 1
             self[turn.next].score -= 1
-            board[$0.compare.x, $0.compare.y]!.player = turn
+            board[$0.point]!.player = turn
         }
         turn = turn.next
     }

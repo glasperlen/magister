@@ -14,11 +14,16 @@ public struct Board {
     }
     
     public subscript(_ x: Int, _ y: Int) -> Cell.Active? {
+        get { self[.init(x: x, y: y)] }
+        set { self[.init(x: x, y: y)] = newValue }
+    }
+    
+    subscript(_ point: Point) -> Cell.Active? {
         get {
-            cells.first { $0.point == .init(x: x, y: y) }!.active
+            cells.first { $0.point == point }!.active
         }
         set {
-            let cell = Cell(active: newValue, point: .init(x: x, y: y))
+            let cell = Cell(active: newValue, point: point)
             cells.remove(cell)
             cells.insert(cell)
         }
