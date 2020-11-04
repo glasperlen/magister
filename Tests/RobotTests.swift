@@ -15,4 +15,15 @@ final class RobotTests: XCTestCase {
         XCTAssertEqual(4, match[.oponent].deck.count)
         XCTAssertEqual(.user, match.turn)
     }
+    
+    func testOnlyEmpty() {
+        (0 ..< 3).forEach { x in
+            (0 ..< 3).forEach { y in
+                guard x != 0 || y != 0 else { return }
+                match.board[x, y] = .init(player: .user, bead: .init())
+            }
+        }
+        match.robot()
+        XCTAssertEqual(.oponent, match.board[0, 0]?.player)
+    }
 }

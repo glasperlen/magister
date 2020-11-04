@@ -25,15 +25,15 @@ public struct Match {
     mutating public func play(index: Int, x: Int, y: Int) {
         let bead = self[turn].deck.remove(at: index)
         board[x, y] = .init(player: turn, bead: bead)
-        Compare.make(bead: bead, x: x, y: y).forEach {
+        Compare.make(bead, .init(x: x, y: y)).forEach {
             guard
-                let active = board[$0.compareX, $0.compareY],
+                let active = board[$0.compare.x, $0.compare.y],
                 active.player != turn,
                 $0.defeat(active.bead)
             else { return }
             self[turn].score += 1
             self[turn.next].score -= 1
-            board[$0.compareX, $0.compareY]!.player = turn
+            board[$0.compare.x, $0.compare.y]!.player = turn
         }
         turn = turn.next
     }
