@@ -1,7 +1,7 @@
 import Foundation
 
 public struct Match: Equatable {
-    public static let off = Match(players: [.user : .none, .oponent : .none])
+    public static let off = Match(turn: .none, players: [.user : .none, .oponent : .none])
     public internal(set) var board = Board()
     public internal(set) var turn = Player.Mode.random
     private var players: [Player.Mode : Player]

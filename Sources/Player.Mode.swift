@@ -4,16 +4,18 @@ extension Player {
     public enum Mode: CaseIterable {
         case
         user,
-        oponent
+        oponent,
+        none
         
         static var random: Self {
-            allCases.randomElement()!
+            [.user, .oponent].randomElement()!
         }
         
         var next: Self {
             switch self {
             case .user: return .oponent
             case .oponent: return .user
+            case .none: return .none
             }
         }
     }
