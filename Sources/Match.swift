@@ -55,6 +55,6 @@ public struct Match: Equatable {
     }
     
     public static func == (lhs: Self, rhs: Self) -> Bool {
-        lhs.id == rhs.id
+        lhs.id == rhs.id && lhs.turn == rhs.turn
     }
 }
