@@ -7,14 +7,7 @@ public struct Board: Equatable {
         }
     })
     
-    public init() { }
-    
-    public subscript(_ x: Int, _ y: Int) -> Cell.Active? {
-        get { self[.init(x, y)] }
-        set { self[.init(x, y)] = newValue }
-    }
-    
-    subscript(_ point: Point) -> Cell.Active? {
+    public subscript(_ point: Point) -> Cell.Active? {
         get {
             cells.first { $0.point == point }!.active
         }

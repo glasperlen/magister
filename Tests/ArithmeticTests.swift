@@ -29,8 +29,8 @@ final class ArithmeticTests: XCTestCase {
         XCTAssertEqual(-1, match[match.turn].score)
         XCTAssertEqual(1, match[match.turn.next].score)
         
-        XCTAssertEqual(match.turn.next, match.board[0, 0]?.player)
-        XCTAssertEqual(match.turn.next, match.board[1, 0]?.player)
+        XCTAssertEqual(match.turn.next, match.board[.init(0, 0)]?.player)
+        XCTAssertEqual(match.turn.next, match.board[.init(1, 0)]?.player)
     }
     
     func testLess() {

@@ -15,13 +15,13 @@ final class BoardTests: XCTestCase {
     func testEmptySome() {
         (0 ..< 3).forEach { x in
             (0 ..< 3).forEach { y in
-                match.board[x, y] = .init(player: .user, bead: .init())
+                match.board[.init(x, y)] = .init(player: .user, bead: .init())
             }
         }
-        match.board[0, 0] = nil
-        match.board[0, 2] = nil
-        match.board[1, 1] = nil
-        match.board[2, 2] = nil
+        match.board[.init(0, 0)] = nil
+        match.board[.init(0, 2)] = nil
+        match.board[.init(1, 1)] = nil
+        match.board[.init(2, 2)] = nil
         XCTAssertTrue(match.board[nil].contains(.init(0, 0)))
         XCTAssertTrue(match.board[nil].contains(.init(0, 2)))
         XCTAssertTrue(match.board[nil].contains(.init(1, 1)))
