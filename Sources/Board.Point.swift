@@ -4,10 +4,15 @@ extension Board {
     public struct Point: Hashable {
         public let x: Int
         public let y: Int
-        private var top: Self { .init(x: x, y: y - 1) }
-        private var bottom: Self { .init(x: x, y: y + 1) }
-        private var left: Self { .init(x: x - 1, y: y) }
-        private var right: Self { .init(x: x + 1, y: y) }
+        private var top: Self { .init(x, y - 1) }
+        private var bottom: Self { .init(x, y + 1) }
+        private var left: Self { .init(x - 1, y) }
+        private var right: Self { .init(x + 1, y) }
+        
+        public init(_ x: Int, _ y: Int) {
+            self.x = x
+            self.y = y
+        }
         
         func attacks(_ with: Bead) -> Set<Bead.Attack> {
             var list = Set<Bead.Attack>()

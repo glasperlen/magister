@@ -22,9 +22,9 @@ final class BoardTests: XCTestCase {
         match.board[0, 2] = nil
         match.board[1, 1] = nil
         match.board[2, 2] = nil
-        XCTAssertTrue(match.board[nil].contains(.init(x: 0, y: 0)))
-        XCTAssertTrue(match.board[nil].contains(.init(x: 0, y: 2)))
-        XCTAssertTrue(match.board[nil].contains(.init(x: 1, y: 1)))
-        XCTAssertTrue(match.board[nil].contains(.init(x: 2, y: 2)))
+        XCTAssertTrue(match.board[nil].contains(.init(0, 0)))
+        XCTAssertTrue(match.board[nil].contains(.init(0, 2)))
+        XCTAssertTrue(match.board[nil].contains(.init(1, 1)))
+        XCTAssertTrue(match.board[nil].contains(.init(2, 2)))
     }
 }

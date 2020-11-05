@@ -3,15 +3,15 @@ import Foundation
 public struct Board {
     private var cells = Set((0 ..< 3).flatMap { x in
         (0 ..< 3).map { y in
-            Cell(point: .init(x: x, y: y))
+            Cell(point: .init(x, y))
         }
     })
     
     public init() { }
     
     public subscript(_ x: Int, _ y: Int) -> Cell.Active? {
-        get { self[.init(x: x, y: y)] }
-        set { self[.init(x: x, y: y)] = newValue }
+        get { self[.init(x, y)] }
+        set { self[.init(x, y)] = newValue }
     }
     
     subscript(_ point: Point) -> Cell.Active? {
