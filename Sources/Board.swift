@@ -1,6 +1,6 @@
 import Foundation
 
-public struct Board {
+public struct Board: Equatable {
     private var cells = Set((0 ..< 3).flatMap { x in
         (0 ..< 3).map { y in
             Cell(point: .init(x, y))
@@ -27,5 +27,9 @@ public struct Board {
     
     subscript(_ player: Player.Mode?) -> Set<Point> {
         .init(cells.filter { $0.active?.player == player }.map(\.point))
+    }
+    
+    public static func == (lhs: Self, rhs: Self) -> Bool {
+        lhs.cells == rhs.cells
     }
 }

@@ -40,9 +40,7 @@ public struct Match: Equatable {
             self[turn.next].score -= 1
             board[$0.point]!.player = turn
         }
-        print(turn)
         turn = turn.next
-        print(turn)
     }
     
     private func score(_ attack: Bead.Attack) -> Bool {
@@ -55,6 +53,6 @@ public struct Match: Equatable {
     }
     
     public static func == (lhs: Self, rhs: Self) -> Bool {
-        lhs.id == rhs.id && lhs.turn == rhs.turn
+        lhs.id == rhs.id && lhs.turn == rhs.turn && lhs.board == rhs.board && lhs.players == rhs.players
     }
 }
