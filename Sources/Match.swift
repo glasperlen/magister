@@ -2,9 +2,9 @@ import Foundation
 import Combine
 
 public struct Match: Equatable {
-    public static let off = Match(turn: .none, players: [.user : .none, .oponent : .none])
+    public static let off = Match()
+    public internal(set) var turn: Player.Mode
     public internal(set) var board = Board()
-    public internal(set) var turn = Player.Mode.random
     public let finish = PassthroughSubject<Result, Never>()
     private var players: [Player.Mode : Player]
     
@@ -14,10 +14,23 @@ public struct Match: Equatable {
             : .none
     }
     
+    private let compromise: Bead
     private let id = UUID()
     
     public static func robot(_ deck: [Bead]) -> Self {
-        .init(players: [.user : .user(deck: deck), .oponent : Factory.robot(tier: deck.map(\.tier).max()!)])
+        .init([.user : .user(deck: deck), .oponent : Factory.robot(tier: deck.map(\.tier).max()!)])
+    }
+    
+    private init() {
+        turn = .none
+        compromise = .init()
+        players = [.user : .none, .oponent : .none]
+    }
+    
+    init(_ players: [Player.Mode : Player]) {
+        self.players = players
+        turn = .random
+        compromise = players[.user]!.deck.randomElement()!
     }
     
     public subscript(_ player: Player.Mode) -> Player {
@@ -55,7 +68,7 @@ public struct Match: Equatable {
                 switch winning {
                 case .none: return .draw
                 case .user: return .win
-                case .oponent: return .loose(self[.user].deck.randomElement()!)
+                case .oponent: return .loose(compromise)
                 }
             } ())
         } else {
