@@ -1,10 +1,19 @@
 import Foundation
+import Combine
 
 public struct Match: Equatable {
     public static let off = Match(turn: .none, players: [.user : .none, .oponent : .none])
     public internal(set) var board = Board()
     public internal(set) var turn = Player.Mode.random
+    public let finish = PassthroughSubject<Player.Mode, Never>()
     private var players: [Player.Mode : Player]
+    
+    private var winning: Player.Mode {
+        self[.user].score > self[.oponent].score ? .user
+            : self[.user].score < self[.oponent].score ? .oponent
+            : .none
+    }
+    
     private let id = UUID()
     
     public static func robot(_ deck: [Bead]) -> Self {
@@ -40,7 +49,12 @@ public struct Match: Equatable {
             self[turn.next].score -= 1
             board[$0.point]!.player = turn
         }
-        turn = turn.next
+        
+        if board[nil].isEmpty {
+            finish.send(winning)
+        } else {
+            turn = turn.next
+        }
     }
     
     private func score(_ attack: Bead.Attack) -> Bool {
