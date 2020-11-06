@@ -5,7 +5,7 @@ public struct Match: Equatable {
     public static let off = Match(turn: .none, players: [.user : .none, .oponent : .none])
     public internal(set) var board = Board()
     public internal(set) var turn = Player.Mode.random
-    public let finish = PassthroughSubject<Player.Mode, Never>()
+    public let finish = PassthroughSubject<Result, Never>()
     private var players: [Player.Mode : Player]
     
     private var winning: Player.Mode {
@@ -51,7 +51,13 @@ public struct Match: Equatable {
         }
         
         if board[nil].isEmpty {
-            finish.send(winning)
+            finish.send({
+                switch winning {
+                case .none: return .draw
+                case .user: return .win
+                case .oponent: return .loose(self[.user].deck.randomElement()!)
+                }
+            } ())
         } else {
             turn = turn.next
         }

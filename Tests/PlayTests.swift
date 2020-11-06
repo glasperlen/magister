@@ -7,7 +7,7 @@ final class PlayTests: XCTestCase {
     private var subs = Set<AnyCancellable>()
     
     override func setUp() {
-        match = .robot([.init()])
+        match = .robot(.init(Factory.beads()))
     }
     
     func testFirstMove() {
@@ -63,8 +63,9 @@ final class PlayTests: XCTestCase {
     func testFinishDraw() {
         let expect = expectation(description: "")
         match.finish.sink {
-            XCTAssertEqual(.none, $0)
-            expect.fulfill()
+            if case .draw = $0 {
+                expect.fulfill()
+            }
         }.store(in: &subs)
         
         (0 ..< 3).forEach { x in
@@ -79,11 +80,12 @@ final class PlayTests: XCTestCase {
         waitForExpectations(timeout: 1)
     }
     
-    func testFinishUser() {
+    func testFinishWin() {
         let expect = expectation(description: "")
         match.finish.sink {
-            XCTAssertEqual(.user, $0)
-            expect.fulfill()
+            if case .win = $0 {
+                expect.fulfill()
+            }
         }.store(in: &subs)
         
         (0 ..< 3).forEach { x in
@@ -93,6 +95,29 @@ final class PlayTests: XCTestCase {
             }
         }
         match[.user].score = 1
+        match.turn = .oponent
+        match.robot()
+        
+        waitForExpectations(timeout: 1)
+    }
+    
+    func testFinishLoose() {
+        let expect = expectation(description: "")
+        let deck = match[.user].deck
+        match.finish.sink {
+            if case let .loose(bead) = $0 {
+                XCTAssertTrue(deck.contains(bead))
+                expect.fulfill()
+            }
+        }.store(in: &subs)
+        
+        (0 ..< 3).forEach { x in
+            (0 ..< 3).forEach { y in
+                guard x != 0 || y != 0 else { return }
+                match.board[.init(x, y)] = .init(player: .oponent, bead: .init())
+            }
+        }
+        match[.oponent].score = 1
         match.turn = .oponent
         match.robot()
         
