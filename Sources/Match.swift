@@ -8,7 +8,7 @@ public struct Match: Equatable {
     private let id = UUID()
     
     public static func robot(_ deck: [Bead]) -> Self {
-        .init(players: [.user : .user(deck: deck), .oponent : Factory.robot(deck.max { $0.tier < $1.tier }!.tier)])
+        .init(players: [.user : .user(deck: deck), .oponent : Factory.robot(tier: deck.map(\.tier).max()!)])
     }
     
     public subscript(_ player: Player.Mode) -> Player {
