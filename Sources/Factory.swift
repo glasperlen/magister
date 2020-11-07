@@ -1,9 +1,9 @@
 import Foundation
 
 public struct Factory {
-    public static func beads(tier: Int = 0) -> Set<Bead> {
+    public static func beads(tier: Int = 5) -> Set<Bead> {
         .init((0 ..< 5).map { _ in
-            .random(in: 1 ..< tier + 10 + (tier / 5)) + extra()
+            .random(in: 1 ..< tier + 5 + (tier / 5)) + extra()
         }.map {
             (0 ..< 4).reduce(into: ([], $0)) {
                 $0.0.append($1 == 3 ? $0.1 : .random(in: 0 ... $0.1))
