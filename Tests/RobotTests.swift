@@ -12,7 +12,6 @@ final class RobotTests: XCTestCase {
     func testFirst() {
         match.robot()
         XCTAssertEqual(1, match.board[.oponent].count)
-        XCTAssertEqual(4, match[.oponent].deck.count)
         XCTAssertEqual(.user, match.turn)
     }
     
@@ -29,7 +28,7 @@ final class RobotTests: XCTestCase {
     
     func testFirtAttack() {
         match.board[.init(1, 1)] = .init(player: .user, bead: .init(top: 2, bottom: 2, left: 2, right: 1))
-        match[.oponent].deck = [.init(left: 2)]
+        match.players[.oponent]!.deck = [.init(.init(left: 2))]
         match.robot()
         XCTAssertEqual(.oponent, match.board[.init(2, 1)]?.player)
     }

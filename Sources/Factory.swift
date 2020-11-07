@@ -15,7 +15,7 @@ public struct Factory {
     }
     
     static func robot(tier: Int) -> Player {
-        .init(deck: .init(beads(tier: tier)), mode: .oponent, name: "Robot\(Int.random(in: 0 ..< 1000))")
+        .robot(.init(beads(tier: tier)), "Robot\(Int.random(in: 0 ..< 1000))")
     }
     
     private static func extra() -> Int {

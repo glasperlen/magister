@@ -16,11 +16,12 @@ final class PlayTests: XCTestCase {
         }.store(in: &subs)
         
         let first = match.turn
-        match[first].deck = [.init()]
+        match.players[first]!.deck = [.init(.init())]
+        XCTAssertEqual(.waiting, match.players[first]!.deck.first!.state)
         match.play(0, .init(0, 0))
+        XCTAssertEqual(.played, match.players[first]!.deck.first!.state)
         XCTAssertEqual(0, match[.user].score)
         XCTAssertEqual(0, match[.oponent].score)
-        XCTAssertTrue(match[first].deck.isEmpty)
         XCTAssertEqual(first, match.board[.init(0, 0)]?.player)
         XCTAssertNotEqual(first, match.turn)
     }
@@ -30,9 +31,9 @@ final class PlayTests: XCTestCase {
             XCTFail()
         }.store(in: &subs)
         
-        match[match.turn].deck = [.init()]
+        match.players[match.turn]!.deck = [.init(.init())]
         match.play(0, .init(0, 0))
-        match[match.turn].deck = [.init(left: 1)]
+        match.players[match.turn]!.deck = [.init(.init(left: 1))]
         match.play(0, .init(1, 0))
         XCTAssertEqual(-1, match[match.turn].score)
         XCTAssertEqual(1, match[match.turn.next].score)
@@ -94,7 +95,7 @@ final class PlayTests: XCTestCase {
                 match.board[.init(x, y)] = .init(player: .oponent, bead: .init())
             }
         }
-        match[.user].score = 1
+        match.players[.user]!.score = 1
         match.turn = .oponent
         match.robot()
         
@@ -103,10 +104,10 @@ final class PlayTests: XCTestCase {
     
     func testFinishLoose() {
         let expect = expectation(description: "")
-        let deck = match[.user].deck
         match.finish.sink {
-            if case let .loose(bead) = $0 {
-                XCTAssertTrue(deck.contains(bead))
+            if case let .loose(index) = $0 {
+                XCTAssertGreaterThanOrEqual(index, 0)
+                XCTAssertLessThanOrEqual(index, 4)
                 expect.fulfill()
             }
         }.store(in: &subs)
@@ -117,7 +118,7 @@ final class PlayTests: XCTestCase {
                 match.board[.init(x, y)] = .init(player: .oponent, bead: .init())
             }
         }
-        match[.oponent].score = 1
+        match.players[.oponent]!.score = 1
         match.turn = .oponent
         match.robot()
         

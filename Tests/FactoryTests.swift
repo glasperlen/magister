@@ -11,6 +11,6 @@ final class FactoryTests: XCTestCase {
     func testRobot() {
         XCTAssertEqual(5, Factory.robot(tier: 1).deck.count)
         XCTAssertFalse(Factory.robot(tier: 1).name.isEmpty)
-        XCTAssertGreaterThan(Factory.robot(tier: 50).deck.map(\.tier).max()!, 20)
+        XCTAssertGreaterThan(Factory.robot(tier: 50).deck.map(\.bead).map(\.tier).max()!, 20)
     }
 }

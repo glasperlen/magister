@@ -9,10 +9,10 @@ final class ArithmeticTests: XCTestCase {
     }
     
     func testDistance() {
-        match[match.turn].deck = [.init()]
+        match.players[match.turn]!.deck = [.init(.init())]
         match.play(0, .init(0, 0))
         
-        match[match.turn].deck = [.init(left: 1)]
+        match.players[match.turn]!.deck = [.init(.init(left: 1))]
         match.play(0, .init(2, 0))
         
         XCTAssertEqual(0, match[.user].score)
@@ -20,10 +20,10 @@ final class ArithmeticTests: XCTestCase {
     }
     
     func testGreater() {
-        match[match.turn].deck = [.init()]
+        match.players[match.turn]!.deck = [.init(.init())]
         match.play(0, .init(0, 0))
         
-        match[match.turn].deck = [.init(left: 1)]
+        match.players[match.turn]!.deck = [.init(.init(left: 1))]
         match.play(0, .init(1, 0))
         
         XCTAssertEqual(-1, match[match.turn].score)
@@ -34,10 +34,10 @@ final class ArithmeticTests: XCTestCase {
     }
     
     func testLess() {
-        match[match.turn].deck = [.init(right: 1)]
+        match.players[match.turn]!.deck = [.init(.init(right: 1))]
         match.play(0, .init(0, 0))
         
-        match[match.turn].deck = [.init()]
+        match.players[match.turn]!.deck = [.init(.init())]
         match.play(0, .init(1, 0))
         
         XCTAssertEqual(0, match[.user].score)
@@ -45,10 +45,10 @@ final class ArithmeticTests: XCTestCase {
     }
     
     func testEqual() {
-        match[match.turn].deck = [.init(right: 1)]
+        match.players[match.turn]!.deck = [.init(.init(right: 1))]
         match.play(0, .init(0, 0))
         
-        match[match.turn].deck = [.init(left: 1)]
+        match.players[match.turn]!.deck = [.init(.init(left: 1))]
         match.play(0, .init(1, 0))
         
         XCTAssertEqual(0, match[.user].score)
@@ -56,10 +56,10 @@ final class ArithmeticTests: XCTestCase {
     }
     
     func testGreaterSamePlayer() {
-        match[match.turn].deck = [.init(), .init(left: 1)]
+        match.players[match.turn]!.deck = [.init(.init()), .init(.init(left: 1))]
         match.play(0, .init(0, 0))
         
-        match[match.turn].deck = [.init()]
+        match.players[match.turn]!.deck = [.init(.init())]
         match.play(0, .init(2, 2))
         
         match.play(0, .init(1, 0))
