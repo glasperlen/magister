@@ -1,6 +1,6 @@
 import Foundation
 
-public struct Bead: Codable, Hashable {
+public struct Bead: Codable, Identifiable, Hashable {
     public var tier: Int { self[.top] + self[.bottom] + self[.left] + self[.right] }
     public let id: UUID
     public let color: Color
