@@ -21,6 +21,6 @@ public struct Factory {
     private static func extra() -> Int {
         {
             $0 > 0 ? $0 + extra() : $0
-        } (.random(in: 0 ..< 4))
+        } (.random(in: 0 ..< 3))
     }
 }
