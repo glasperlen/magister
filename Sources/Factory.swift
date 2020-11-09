@@ -1,8 +1,8 @@
 import Foundation
 
 public struct Factory {
-    public static func beads(tier: Int = 0) -> Set<Bead> {
-        .init((0 ..< 5).map { _ in
+    public static func beads(tier: Int = 0) -> [Bead] {
+        (0 ..< 5).map { _ in
             .random(in: 1 ..< max(tier, 10) + (tier / 5)) + extra()
         }.map {
             (0 ..< 4).reduce(into: ([], $0)) {
@@ -11,7 +11,7 @@ public struct Factory {
             }.0
         }.shuffled().map {
             .init(top: $0[0], bottom: $0[1], left: $0[2], right: $0[3])
-        })
+        }
     }
     
     static func robot(tier: Int) -> Player {

@@ -10,7 +10,7 @@ extension Player {
         }
         
         public static func == (lhs: Self, rhs: Self) -> Bool {
-            lhs.bead == rhs.bead && lhs.state == rhs.state
+            lhs.bead.id == rhs.bead.id && lhs.state == rhs.state
         }
     }
 }
