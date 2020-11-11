@@ -11,9 +11,9 @@ public struct Player: Equatable {
     
     public static let none = Self()
     public internal(set) var score = 0
+    public internal(set) var deck: [Item]
     public let name: String
     public let mode: Mode
-    var deck: [Item]
     
     private init(_ deck: [Bead] = [], _ mode: Mode = .none, _ name: String = "") {
         self.deck = deck.map(Item.init)
