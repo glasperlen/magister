@@ -4,31 +4,36 @@ import CoreGraphics
 public struct Point: Hashable {
     public let x: Int
     public let y: Int
-    private var top: Self { .init(x, y - 1) }
-    private var bottom: Self { .init(x, y + 1) }
-    private var left: Self { .init(x - 1, y) }
-    private var right: Self { .init(x + 1, y) }
+    
+    var relations: Set<Relation> {
+        var list = Set<Relation>()
+        if x > 0 {
+            list.insert(.left)
+        }
+        if x < 2 {
+            list.insert(.right)
+        }
+        if y > 0 {
+            list.insert(.top)
+        }
+        if y < 2 {
+            list.insert(.bottom)
+        }
+        return list
+    }
     
     public init(_ x: Int, _ y: Int) {
         self.x = x
         self.y = y
     }
     
-    func attacks(_ with: Bead) -> Set<Attack> {
-        var list = Set<Attack>()
-        if x > 0 {
-            list.insert(.init(bead: with, point: left, relation: .left))
+    subscript(_ relation: Relation) -> Point {
+        switch relation {
+        case .top: return .init(x, y - 1)
+        case .bottom: return .init(x, y + 1)
+        case .left: return .init(x - 1, y)
+        case .right: return .init(x + 1, y)
         }
-        if x < 2 {
-            list.insert(.init(bead: with, point: right, relation: .right))
-        }
-        if y > 0 {
-            list.insert(.init(bead: with, point: top, relation: .top))
-        }
-        if y < 2 {
-            list.insert(.init(bead: with, point: bottom, relation: .bottom))
-        }
-        return list
     }
     
     public func hash(into: inout Hasher) {

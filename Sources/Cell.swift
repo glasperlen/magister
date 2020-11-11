@@ -5,6 +5,25 @@ public struct Cell: Hashable {
     public let bead: Bead
     let point: Point
     
+    func join(transform: (Point) -> Self?) -> [Point] {
+        point.relations.compactMap { relation in
+            transform(point[relation]).map { cell in
+                (relation, cell)
+            }
+        }.filter {
+            $1.player != player
+        }.filter { relation, cell in
+            {
+                switch relation {
+                case .top: return $0 > cell.bead[.bottom]
+                case .bottom: return $0 > cell.bead[.top]
+                case .left: return $0 > cell.bead[.right]
+                case .right: return $0 > cell.bead[.left]
+                }
+            } (bead[relation])
+        }.map(\.1.point)
+    }
+    
     public func hash(into: inout Hasher) {
         into.combine(point)
     }

@@ -1,14 +1,10 @@
 import Foundation
 
 public struct Match {
-    public internal(set) var turn = Player.allCases.randomElement()
+    public internal(set) var turn = Player.allCases.randomElement()!
     public private(set) var result: Result?
     public let oponent: Oponent
-    
-    public var score: Float {
-        cells.isEmpty ? 0 : .init(cells.filter { $0.player == .user }.count) / .init(cells.count)
-    }
-    
+    public var score: Float { cells.isEmpty ? 0 : .init(cells.filter { $0.player == .user }.count) / .init(cells.count) }
     private var cells = Set<Cell>()
     
     public init(_ user: [Bead]) {
@@ -40,32 +36,22 @@ public struct Match {
     }
     
     mutating public func play(_ bead: Bead, _ point: Point) {
-//        board[point] = .init(player: turn, bead: bead)
-//        point.attacks(bead).filter(success).forEach {
-//            players[turn]!.score += 1
-//            players[turn.next]!.score -= 1
-//            board[$0.point]!.player = turn
-//        }
-//
-//        if board[nil].isEmpty {
-//            finish.send({
-//                switch self[.user].score {
-//                case self[.oponent].score ...: return .win
-//                case ..< self[.oponent].score: return .loose(.random(in: 0 ..< 5))
-//                default: return .draw
-//                }
-//            } ())
-//        } else {
-//            turn = turn.next
-//        }
-    }
-    
-    private func success(_ attack: Attack) -> Bool {
-        guard
-            let active = self[attack.point],
-            active.player != turn,
-            attack.defense(active.bead)
-        else { return false }
-        return true
+        let cell = Cell(player: turn, bead: bead, point: point)
+        cell.join {
+            self[$0]
+        }.forEach {
+            self[$0]!.player = turn
+        }
+        cells.insert(cell)
+        
+        if cells.count == 9 {
+            switch score {
+            case 0.5: result = .draw
+            case ..<0.5: result = .loose
+            default: result = .win
+            }
+        } else {
+            turn = turn.next
+        }
     }
 }

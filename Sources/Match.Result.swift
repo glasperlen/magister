@@ -5,6 +5,6 @@ extension Match {
         case
         draw,
         win,
-        loose(UUID)
+        loose
     }
 }
