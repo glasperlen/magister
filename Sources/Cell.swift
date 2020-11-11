@@ -1,8 +1,9 @@
 import Foundation
 
 public struct Cell: Hashable {
-    public var active: Active?
-    let point: Board.Point
+    public internal(set) var player: Player
+    public let bead: Bead
+    let point: Point
     
     public func hash(into: inout Hasher) {
         into.combine(point)
