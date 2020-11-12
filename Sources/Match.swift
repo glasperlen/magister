@@ -24,25 +24,34 @@ public struct Match {
     }
     
     mutating public func robot() {
-//        cells.filter { $0.active == nil }.map(\.point).flatMap { point in
-//            oponent.beads.filter { bead in !cells.contains { $0.active.bead == bead } }.map {
-//                Combo(success: point.attacks($0).filter(success).count, point: point)
-//            }
-//        }.max {
-//            $0.success < $1.success
-//        }.map {
-//            play($0.bead, $0.point)
-//        }
+        Point.all
+            .filter { point in !cells.contains { $0.point == point } }
+            .flatMap { point in
+                oponent.beads
+                    .filter { bead in !cells.contains { $0.bead.id == bead.id } }
+                    .map {
+                        Cell(player: turn, bead: $0, point: point)
+                    }
+            }.max {
+                $0.join {
+                    self[$0]
+                }.count < $1.join {
+                    self[$0]
+                }.count
+            }.map {
+                play($0.bead, $0.point)
+            }
     }
     
     mutating public func play(_ bead: Bead, _ point: Point) {
-        let cell = Cell(player: turn, bead: bead, point: point)
-        cell.join {
-            self[$0]
-        }.forEach {
-            self[$0]!.player = turn
-        }
-        cells.insert(cell)
+        cells.insert({
+            $0.join {
+                self[$0]
+            }.forEach {
+                self[$0]!.player = turn
+            }
+            return $0
+        } (Cell(player: turn, bead: bead, point: point)))
         
         if cells.count == 9 {
             switch score {

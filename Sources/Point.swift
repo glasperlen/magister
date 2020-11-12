@@ -2,6 +2,12 @@ import Foundation
 import CoreGraphics
 
 public struct Point: Hashable {
+    static let all = Set((0 ..< 3).flatMap { x in
+        (0 ..< 3).map { y in
+            Self(x, y)
+        }
+    })
+    
     public let x: Int
     public let y: Int
     
