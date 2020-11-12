@@ -2,8 +2,8 @@ import Foundation
 
 public struct Match {
     public internal(set) var turn = Player.allCases.randomElement()!
+    public internal(set) var oponent: Oponent
     public private(set) var result: Result?
-    public let oponent: Oponent
     public var score: Float { cells.isEmpty ? 0 : .init(cells.filter { $0.player == .user }.count) / .init(cells.count) }
     private var cells = Set<Cell>()
     
@@ -23,12 +23,16 @@ public struct Match {
         }
     }
     
+    public func played(_ bead: Bead) -> Bool {
+        cells.contains { $0.bead == bead }
+    }
+    
     mutating public func robot() {
         Point.all
             .filter { point in !cells.contains { $0.point == point } }
             .flatMap { point in
                 oponent.beads
-                    .filter { bead in !cells.contains { $0.bead.id == bead.id } }
+                    .filter { !played($0) }
                     .map {
                         Cell(player: turn, bead: $0, point: point)
                     }

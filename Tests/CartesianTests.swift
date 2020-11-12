@@ -12,14 +12,11 @@ final class CartesianTests: XCTestCase {
                             && x2 < 3
                             && y2 < 3
                             && ((x1 == x2 && y1 != y2) || (y1 == y2 && x1 != x2)) {
-                            var match = Match.robot([.init()])
-                            match.players[match.turn]!.deck = [.init(.init())]
-                            match.play(0, .init(x2, y2))
-                            
-                            match.players[match.turn]!.deck = [.init(.init(top: 1, bottom: 1, left: 1, right: 1))]
-                            match.play(0, .init(x1, y1))
-                            
-                            XCTAssertTrue(match[match.turn.next].score == 1 && match[match.turn].score == -1, "\(x1),\(y1) vs \(x2),\(y2)")
+                            var match = Match([])
+                            match.turn = .oponent
+                            match.play(.init(), .init(x2, y2))
+                            match.play(.init(top: 1, bottom: 1, left: 1, right: 1), .init(x1, y1))
+                            XCTAssertTrue(match.score == 1, "\(x1),\(y1) vs \(x2),\(y2)")
                         }
                     }
                 }
