@@ -11,8 +11,4 @@ public enum Color: String, Codable, CaseIterable {
     teal,
     purple,
     indigo
-    
-    static var random: Self {
-        allCases.randomElement()!
-    }
 }
