@@ -1,6 +1,9 @@
 import Foundation
+import CoreGraphics
 
 public struct Match {
+    public var drop: Point?
+    public var positions = [Point : CGRect]()
     public internal(set) var turn = Player.allCases.randomElement()!
     public internal(set) var oponent: Oponent
     public private(set) var result: Result?
