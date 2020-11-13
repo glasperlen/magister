@@ -7,8 +7,8 @@ public struct Match {
     public internal(set) var turn = Player.allCases.randomElement()!
     public internal(set) var oponent: Oponent
     public private(set) var result: Result?
+    public private(set) var cells = Set<Cell>()
     public var score: Float { cells.isEmpty ? 0 : .init(cells.filter { $0.player == .user }.count) / .init(cells.count) }
-    private var cells = Set<Cell>()
     
     public init(_ user: [Bead]) {
         oponent = Factory.oponent(user: user)
