@@ -62,7 +62,6 @@ public struct Match {
         
         if cells.count == 9 {
             switch score {
-            case 0.5: result = .draw
             case ..<0.5: result = .loose
             default: result = .win
             }
