@@ -9,8 +9,8 @@ final class FactoryTests: XCTestCase {
     }
     
     func testRobot() {
-        XCTAssertEqual(5, Factory.oponent(user: []).beads.count)
-        XCTAssertFalse(Factory.oponent(user: []).name.isEmpty)
-        XCTAssertGreaterThan(Factory.oponent(user: [.init(top: 50)]).beads.map(\.tier).max()!, 20)
+        XCTAssertEqual(5, Factory.opponent(user: []).beads.count)
+        XCTAssertFalse(Factory.opponent(user: []).name.isEmpty)
+        XCTAssertGreaterThan(Factory.opponent(user: [.init(top: 50)]).beads.map(\.tier).max()!, 20)
     }
 }

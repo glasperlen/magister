@@ -1,6 +1,6 @@
 import Foundation
 
-public struct Oponent {
+public struct Opponent {
     public let beads: [Bead]
     public let name: String
 }

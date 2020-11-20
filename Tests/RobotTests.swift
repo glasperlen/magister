@@ -6,7 +6,7 @@ final class RobotTests: XCTestCase {
 
     override func setUp() {
         match = .init([])
-        match.turn = .oponent
+        match.turn = .opponent
     }
     
     func testFirst() {
@@ -23,13 +23,13 @@ final class RobotTests: XCTestCase {
             }
         }
         match.robot()
-        XCTAssertEqual(.oponent, match[.init(0, 0)]?.player)
+        XCTAssertEqual(.opponent, match[.init(0, 0)]?.player)
     }
     
     func testFirtAttack() {
         match[.init(1, 1)] = .init(player: .user, bead: .init(top: 2, bottom: 2, left: 2, right: 1), point: .init(1, 1))
-        match.oponent = .init(beads: [.init(left: 2)], name: "")
+        match.opponent = .init(beads: [.init(left: 2)], name: "")
         match.robot()
-        XCTAssertEqual(.oponent, match[.init(2, 1)]?.player)
+        XCTAssertEqual(.opponent, match[.init(2, 1)]?.player)
     }
 }

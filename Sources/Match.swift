@@ -5,13 +5,13 @@ public struct Match {
     public var drop: Point?
     public var positions = [Point : CGRect]()
     public internal(set) var turn = Player.allCases.randomElement()!
-    public internal(set) var oponent: Oponent
+    public internal(set) var opponent: Opponent
     public private(set) var result: Result?
     public private(set) var cells = Set<Cell>()
     public var score: Float { cells.isEmpty ? 0 : .init(cells.filter { $0.player == .user }.count) / .init(cells.count) }
     
     public init(_ user: [Bead]) {
-        oponent = Factory.oponent(user: user)
+        opponent = Factory.opponent(user: user)
     }
     
     public subscript(_ point: Point) -> Cell? {
@@ -34,7 +34,7 @@ public struct Match {
         Point.all
             .filter { point in !cells.contains { $0.point == point } }
             .flatMap { point in
-                oponent.beads
+                opponent.beads
                     .filter { !played($0) }
                     .map {
                         Cell(player: turn, bead: $0, point: point)
