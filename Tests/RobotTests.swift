@@ -33,7 +33,8 @@ final class RobotTests: XCTestCase {
     
     func testFirstAttack() {
         match[.init(1, 1)] = .init(player: .second, bead: .init(top: 2, bottom: 2, left: 2, right: 1), point: .init(1, 1))
-        match.robot = .init([.init(left: 2)])
+        match.robot = .init([])
+        match.robot?.beads = [.init(left: 2)]
         match.robot?.play(match).map {
             match.play($0.bead, $0.point)
         }

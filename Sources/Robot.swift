@@ -1,7 +1,7 @@
 import Foundation
 
 public struct Robot {
-    public let beads: [Bead]
+    public internal(set) var beads: [Bead]
     public let name: String
     public let player = Player.first
     
