@@ -12,15 +12,20 @@ final class StateTests: XCTestCase {
         XCTAssertEqual(.matching, match.state)
     }
     
-    func testPlaying() {
+    func testRobot() {
         match.robot = .init([])
+        XCTAssertEqual(.playing, match.state)
+    }
+    
+    func testMatched() {
+        match.matched()
         XCTAssertEqual(.playing, match.state)
     }
     
     func testPrize() {
         (0 ..< 3).forEach { x in
             (0 ..< 3).forEach { y in
-                match.play(.init(), .init(x, y))
+                match[.init(x, y)] = .init()
             }
         }
         XCTAssertEqual(.prize, match.state)

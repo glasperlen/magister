@@ -22,6 +22,30 @@ public struct Match {
     
     public init() { }
     
+    public subscript(_ point: Point) -> Bead? {
+        get {
+            cells.first { $0.point == point }?.bead
+        }
+        set {
+            newValue.map {
+                cells.insert({
+                    $0.join {
+                        self[$0]
+                    }.forEach {
+                        self[$0]!.player = turn
+                    }
+                    return $0
+                } (Cell(player: turn, bead: $0, point: point)))
+                
+                if cells.count == 9 {
+                    state = .prize
+                } else {
+                    turn = turn.next
+                }
+            }
+        }
+    }
+    
     public subscript(_ point: Point) -> Cell? {
         get {
             cells.first { $0.point == point }
@@ -44,24 +68,11 @@ public struct Match {
         } (cells.isEmpty ? Float(0.5) : .init(cells.filter { $0.player == player }.count) / .init(cells.count))
     }
     
-    public func played(_ bead: Bead) -> Bool {
+    public subscript(_ bead: Bead) -> Bool {
         cells.contains { $0.bead == bead }
     }
     
-    mutating public func play(_ bead: Bead, _ point: Point) {
-        cells.insert({
-            $0.join {
-                self[$0]
-            }.forEach {
-                self[$0]!.player = turn
-            }
-            return $0
-        } (Cell(player: turn, bead: bead, point: point)))
-        
-        if cells.count == 9 {
-            state = .prize
-        } else {
-            turn = turn.next
-        }
+    mutating public func matched() {
+        state = .playing
     }
 }

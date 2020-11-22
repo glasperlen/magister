@@ -10,34 +10,34 @@ final class ArithmeticTests: XCTestCase {
     }
     
     func testDistance() {
-        match.play(.init(), .init(0, 0))
-        match.play(.init(left: 1), .init(2, 0))
+        match[.init(0, 0)] = .init()
+        match[.init(2, 0)] = .init(left: 1)
         XCTAssertEqual(.draw, match[.first])
     }
 
     func testGreater() {
-        match.play(.init(), .init(0, 0))
-        match.play(.init(left: 1), .init(1, 0))
+        match[.init(0, 0)] = .init()
+        match[.init(1, 0)] = .init(left: 1)
         XCTAssertEqual(.win(1), match[.second])
     }
 
     func testLess() {
-        match.play(.init(right: 1), .init(0, 0))
-        match.play(.init(), .init(1, 0))
+        match[.init(0, 0)] = .init(right: 1)
+        match[.init(1, 0)] = .init()
         XCTAssertEqual(.draw, match[.first])
     }
 
     func testEqual() {
-        match.play(.init(right: 1), .init(0, 0))
-        match.play(.init(left: 1), .init(1, 0))
+        match[.init(0, 0)] = .init(right: 1)
+        match[.init(1, 0)] = .init(left: 1)
         XCTAssertEqual(.draw, match[.first])
     }
 
     func testGreaterSamePlayer() {
-        match.play(.init(), .init(0, 0))
-        match.play(.init(), .init(2, 2))
-        match.play(.init(left: 1), .init(1, 0))
-        match.play(.init(), .init(0, 2))
+        match[.init(0, 0)] = .init()
+        match[.init(2, 2)] = .init()
+        match[.init(1, 0)] = .init(left: 1)
+        match[.init(0, 2)] = .init()
         XCTAssertEqual(.draw, match[.first])
     }
 }

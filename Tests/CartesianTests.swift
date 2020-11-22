@@ -14,8 +14,8 @@ final class CartesianTests: XCTestCase {
                             && ((x1 == x2 && y1 != y2) || (y1 == y2 && x1 != x2)) {
                             var match = Match()
                             match.turn = .first
-                            match.play(.init(), .init(x2, y2))
-                            match.play(.init(top: 1, bottom: 1, left: 1, right: 1), .init(x1, y1))
+                            match[.init(x2, y2)] = .init()
+                            match[.init(x1, y1)] = .init(top: 1, bottom: 1, left: 1, right: 1)
                             XCTAssertEqual(.win(1), match[.second], "\(x1),\(y1) vs \(x2),\(y2)")
                         }
                     }

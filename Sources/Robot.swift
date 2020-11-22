@@ -15,7 +15,7 @@ public struct Robot {
             .filter { point in !match.cells.contains { $0.point == point } }
             .flatMap { point in
                 beads
-                    .filter { !match.played($0) }
+                    .filter { !match[$0] }
                     .map {
                         Cell(player: player, bead: $0, point: point)
                     }
