@@ -6,9 +6,8 @@ public struct Match {
     public var positions = [Point : CGRect]()
     public internal(set) var turn = Player.allCases.randomElement()!
     public internal(set) var opponent: Opponent
-    public private(set) var result: Result?
     public private(set) var cells = Set<Cell>()
-    public var score: Float { cells.isEmpty ? 0 : .init(cells.filter { $0.player == .user }.count) / .init(cells.count) }
+    public private(set) var finished = false
     
     public init(_ user: [Bead]) {
         opponent = Factory.opponent(user: user)
@@ -24,6 +23,16 @@ public struct Match {
                 cells.insert($0)
             }
         }
+    }
+    
+    public subscript(_ player: Player) -> Result {
+        {
+            switch $0 {
+            case 0.5: return .draw
+            case ..<0.5: return .loose($0)
+            default: return .win($0)
+            }
+        } (cells.isEmpty ? Float() : .init(cells.filter { $0.player == player }.count) / .init(cells.count))
     }
     
     public func played(_ bead: Bead) -> Bool {
@@ -61,10 +70,7 @@ public struct Match {
         } (Cell(player: turn, bead: bead, point: point)))
         
         if cells.count == 9 {
-            switch score {
-            case ..<0.5: result = .loose
-            default: result = .win
-            }
+            finished = true
         } else {
             turn = turn.next
         }

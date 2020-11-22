@@ -2,13 +2,13 @@ import Foundation
 
 public enum Player: CaseIterable {
     case
-    user,
-    opponent
+    first,
+    second
     
     var next: Self {
         switch self {
-        case .user: return .opponent
-        case .opponent: return .user
+        case .first: return .second
+        case .second: return .first
         }
     }
 }
