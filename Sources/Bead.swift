@@ -6,7 +6,7 @@ public struct Bead: Codable, Identifiable, Equatable {
     public let color: Color
     private let relations: [Relation : Int]
     
-    init(color: Color = Color.allCases.randomElement()!, top: Int = 0, bottom: Int = 0, left: Int = 0, right: Int = 0) {
+    public init(color: Color = Color.allCases.randomElement()!, top: Int = 0, bottom: Int = 0, left: Int = 0, right: Int = 0) {
         self.color = color
         relations = [.top: top, .bottom: bottom, .left: left, .right: right]
         id = .init()

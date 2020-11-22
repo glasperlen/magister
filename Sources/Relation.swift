@@ -1,6 +1,6 @@
 import Foundation
 
-public enum Relation: String, Codable {
+public enum Relation: UInt8, Codable {
     case
     top,
     bottom,

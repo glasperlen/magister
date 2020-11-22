@@ -1,7 +1,7 @@
 import Foundation
 
 extension Match {
-    public enum Result {
+    public enum Result: Equatable {
         case
         win(Float),
         loose(Float),

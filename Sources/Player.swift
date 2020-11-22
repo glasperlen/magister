@@ -1,6 +1,6 @@
 import Foundation
 
-public enum Player: CaseIterable {
+public enum Player: UInt8, Codable, CaseIterable {
     case
     first,
     second

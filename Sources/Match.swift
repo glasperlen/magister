@@ -5,13 +5,22 @@ public struct Match {
     public var drop: Point?
     public var positions = [Point : CGRect]()
     public internal(set) var turn = Player.allCases.randomElement()!
-    public internal(set) var opponent: Opponent
     public private(set) var cells = Set<Cell>()
-    public private(set) var finished = false
+    public private(set) var state = State.matching
     
-    public init(_ user: [Bead]) {
-        opponent = Factory.opponent(user: user)
+    public var opponent: Opponent? {
+        didSet {
+            state = .playing
+        }
     }
+    
+    public var prize: Bead? {
+        didSet {
+            state = .finished
+        }
+    }
+    
+    public init() { }
     
     public subscript(_ point: Point) -> Cell? {
         get {
@@ -32,7 +41,7 @@ public struct Match {
             case ..<0.5: return .loose($0)
             default: return .win($0)
             }
-        } (cells.isEmpty ? Float() : .init(cells.filter { $0.player == player }.count) / .init(cells.count))
+        } (cells.isEmpty ? Float(0.5) : .init(cells.filter { $0.player == player }.count) / .init(cells.count))
     }
     
     public func played(_ bead: Bead) -> Bool {
@@ -43,7 +52,7 @@ public struct Match {
         Point.all
             .filter { point in !cells.contains { $0.point == point } }
             .flatMap { point in
-                opponent.beads
+                opponent!.beads
                     .filter { !played($0) }
                     .map {
                         Cell(player: turn, bead: $0, point: point)
@@ -70,7 +79,7 @@ public struct Match {
         } (Cell(player: turn, bead: bead, point: point)))
         
         if cells.count == 9 {
-            finished = true
+            state = .prize
         } else {
             turn = turn.next
         }
