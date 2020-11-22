@@ -6,6 +6,7 @@ extension Match {
         matching,
         playing,
         prize,
+        
         finished
     }
 }

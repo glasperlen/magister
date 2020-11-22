@@ -75,4 +75,8 @@ public struct Match {
     mutating public func matched() {
         state = .playing
     }
+    
+    mutating public func quit() {
+        
+    }
 }
