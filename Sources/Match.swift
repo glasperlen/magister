@@ -48,26 +48,6 @@ public struct Match {
         cells.contains { $0.bead == bead }
     }
     
-    mutating public func robot() {
-        Point.all
-            .filter { point in !cells.contains { $0.point == point } }
-            .flatMap { point in
-                opponent!.beads
-                    .filter { !played($0) }
-                    .map {
-                        Cell(player: turn, bead: $0, point: point)
-                    }
-            }.max {
-                $0.join {
-                    self[$0]
-                }.count < $1.join {
-                    self[$0]
-                }.count
-            }.map {
-                play($0.bead, $0.point)
-            }
-    }
-    
     mutating public func play(_ bead: Bead, _ point: Point) {
         cells.insert({
             $0.join {

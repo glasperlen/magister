@@ -43,7 +43,9 @@ final class PlayTests: XCTestCase {
             }
         }
         match.turn = .first
-        match.robot()
+        match.opponent?.play(match).map {
+            match.play($0.bead, $0.point)
+        }
         XCTAssertEqual(.first, match.turn)
         XCTAssertEqual(.prize, match.state)
     }
