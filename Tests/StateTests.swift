@@ -13,7 +13,7 @@ final class StateTests: XCTestCase {
     }
     
     func testPlaying() {
-        match.opponent = Factory.opponent(user: [])
+        match.robot = .init([])
         XCTAssertEqual(.playing, match.state)
     }
     

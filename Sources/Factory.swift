@@ -14,10 +14,6 @@ public struct Factory {
         }
     }
     
-    public static func opponent(user: [Bead]) -> Opponent {
-        .init(beads: beads(tier: user.map(\.tier).max() ?? 0), name: "Robot\(Int.random(in: 0 ..< 100))")
-    }
-    
     private static func extra() -> Int {
         {
             $0 > 0 ? $0 + extra() : $0

@@ -8,7 +8,7 @@ public struct Match {
     public private(set) var cells = Set<Cell>()
     public private(set) var state = State.matching
     
-    public var opponent: Opponent? {
+    public var robot: Robot? {
         didSet {
             state = .playing
         }

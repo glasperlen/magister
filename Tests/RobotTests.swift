@@ -6,12 +6,12 @@ final class RobotTests: XCTestCase {
 
     override func setUp() {
         match = .init()
-        match.opponent = Factory.opponent(user: [])
+        match.robot = .init([])
         match.turn = .first
     }
     
     func testFirst() {
-        match.opponent?.play(match).map {
+        match.robot?.play(match).map {
             match.play($0.bead, $0.point)
         }
         XCTAssertEqual(.loose(0), match[.second])
@@ -25,16 +25,16 @@ final class RobotTests: XCTestCase {
                 match[.init(x, y)] = .init(player: .second, bead: .init(), point: .init(x, y))
             }
         }
-        match.opponent?.play(match).map {
+        match.robot?.play(match).map {
             match.play($0.bead, $0.point)
         }
         XCTAssertEqual(.first, match[.init(0, 0)]?.player)
     }
     
-    func testFirtAttack() {
+    func testFirstAttack() {
         match[.init(1, 1)] = .init(player: .second, bead: .init(top: 2, bottom: 2, left: 2, right: 1), point: .init(1, 1))
-        match.opponent = .init(beads: [.init(left: 2)], name: "")
-        match.opponent?.play(match).map {
+        match.robot = .init([.init(left: 2)])
+        match.robot?.play(match).map {
             match.play($0.bead, $0.point)
         }
         XCTAssertEqual(.first, match[.init(2, 1)]?.player)

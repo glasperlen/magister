@@ -1,9 +1,14 @@
 import Foundation
 
-public struct Opponent {
+public struct Robot {
     public let beads: [Bead]
     public let name: String
     public let player = Player.first
+    
+    public init(_ user: [Bead]) {
+        beads = Factory.beads(tier: user.map(\.tier).max() ?? 0)
+        name = "Robot\(Int.random(in: 0 ..< 100))"
+    }
     
     func play(_ match: Match) -> Cell? {
         Point.all

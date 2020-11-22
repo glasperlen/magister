@@ -6,7 +6,7 @@ final class PlayTests: XCTestCase {
     
     override func setUp() {
         match = .init()
-        match.opponent = Factory.opponent(user: [])
+        match.robot = .init([])
         match.turn = .first
     }
     
@@ -43,7 +43,7 @@ final class PlayTests: XCTestCase {
             }
         }
         match.turn = .first
-        match.opponent?.play(match).map {
+        match.robot?.play(match).map {
             match.play($0.bead, $0.point)
         }
         XCTAssertEqual(.first, match.turn)
