@@ -9,14 +9,14 @@ public struct Robot: Codable {
         name = "Robot\(Int.random(in: 0 ..< 100))"
     }
     
-    func play(_ match: Match) -> Cell? {
+    public func play(_ match: Match) -> Cell? {
         Point.all
             .filter { point in !match.cells.contains { $0.point == point } }
             .flatMap { point in
                 beads
                     .filter { !match[$0] }
                     .map {
-                        Cell(state: .first, bead: $0, point: point)
+                        .init(state: .first, bead: $0, point: point)
                     }
             }.max {
                 $0.join {
