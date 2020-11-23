@@ -14,12 +14,12 @@ final class StateTests: XCTestCase {
     
     func testRobot() {
         match.robot = .init([])
-        XCTAssertEqual(.playing, match.state)
+        XCTAssertTrue(match.state == .first || match.state == .second)
     }
     
     func testMatched() {
         match.matched()
-        XCTAssertEqual(.playing, match.state)
+        XCTAssertTrue(match.state == .first || match.state == .second)
     }
     
     func testPrize() {
@@ -33,6 +33,6 @@ final class StateTests: XCTestCase {
     
     func testFinished() {
         match.prize = .init()
-        XCTAssertEqual(.finished, match.state)
+        XCTAssertEqual(.end, match.state)
     }
 }

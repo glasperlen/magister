@@ -3,10 +3,20 @@ import Foundation
 extension Match {
     public enum State: UInt8, Codable {
         case
+        new,
         matching,
-        playing,
+        first,
+        second,
         prize,
+        remove,
+        end
         
-        finished
+        var next: Self {
+            switch self {
+            case .first: return .second
+            case .second: return .first
+            default: return [.first, .second].randomElement()!
+            }
+        }
     }
 }

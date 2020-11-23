@@ -2,21 +2,18 @@ import Foundation
 import CoreGraphics
 
 public struct Match {
-    public var drop: Point?
-    public var positions = [Point : CGRect]()
-    public internal(set) var turn = Player.allCases.randomElement()!
+    public internal(set) var state = State.matching
     public private(set) var cells = Set<Cell>()
-    public private(set) var state = State.matching
     
     public var robot: Robot? {
         didSet {
-            state = .playing
+            state = state.next
         }
     }
     
     public var prize: Bead? {
         didSet {
-            state = .finished
+            state = .end
         }
     }
     
@@ -32,15 +29,15 @@ public struct Match {
                     $0.join {
                         self[$0]
                     }.forEach {
-                        self[$0]!.player = turn
+                        self[$0]!.state = state
                     }
                     return $0
-                } (Cell(player: turn, bead: $0, point: point)))
+                } (Cell(state: state, bead: $0, point: point)))
                 
                 if cells.count == 9 {
                     state = .prize
                 } else {
-                    turn = turn.next
+                    state = state.next
                 }
             }
         }
@@ -58,14 +55,14 @@ public struct Match {
         }
     }
     
-    public subscript(_ player: Player) -> Result {
+    public subscript(_ state: State) -> Result {
         {
             switch $0 {
             case 0.5: return .draw
             case ..<0.5: return .loose($0)
             default: return .win($0)
             }
-        } (cells.isEmpty ? Float(0.5) : .init(cells.filter { $0.player == player }.count) / .init(cells.count))
+        } (cells.isEmpty ? Float(0.5) : .init(cells.filter { $0.state == state }.count) / .init(cells.count))
     }
     
     public subscript(_ bead: Bead) -> Bool {
@@ -73,7 +70,7 @@ public struct Match {
     }
     
     mutating public func matched() {
-        state = .playing
+        state = state.next
     }
     
     mutating public func quit() {

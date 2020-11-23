@@ -3,7 +3,7 @@ import Foundation
 public struct Robot {
     public internal(set) var beads: [Bead]
     public let name: String
-    public let player = Player.first
+    public let state = Match.State.first
     
     public init(_ user: [Bead]) {
         beads = Factory.beads(tier: user.map(\.tier).max() ?? 0)
@@ -17,7 +17,7 @@ public struct Robot {
                 beads
                     .filter { !match[$0] }
                     .map {
-                        Cell(player: player, bead: $0, point: point)
+                        Cell(state: state, bead: $0, point: point)
                     }
             }.max {
                 $0.join {

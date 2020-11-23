@@ -6,7 +6,7 @@ final class ArithmeticTests: XCTestCase {
     
     override func setUp() {
         match = .init()
-        match.turn = .first
+        match.state = .first
     }
     
     func testDistance() {

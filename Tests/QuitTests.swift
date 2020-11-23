@@ -10,7 +10,7 @@ final class QuitTests: XCTestCase {
     
     func testMatching() {
         match.quit()
-        XCTAssertEqual(.finished, match.state)
+        XCTAssertEqual(.end, match.state)
     }
     
     func testRobot() {

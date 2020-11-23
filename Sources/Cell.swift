@@ -1,7 +1,7 @@
 import Foundation
 
 public struct Cell: Hashable {
-    public internal(set) var player: Player
+    public internal(set) var state: Match.State
     public let bead: Bead
     let point: Point
     
@@ -11,7 +11,7 @@ public struct Cell: Hashable {
                 (relation, cell)
             }
         }.filter {
-            $1.player != player
+            $1.state != state
         }.filter { relation, cell in
             {
                 switch relation {

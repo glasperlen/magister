@@ -6,7 +6,7 @@ final class ScoreTests: XCTestCase {
     
     override func setUp() {
         match = .init()
-        match.turn = .second
+        match.state = .second
     }
     
     func testInitial() {
