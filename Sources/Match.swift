@@ -1,5 +1,4 @@
 import Foundation
-import CoreGraphics
 
 public struct Match: Codable {
     public internal(set) var state = State.new

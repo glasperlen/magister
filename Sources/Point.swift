@@ -1,5 +1,4 @@
 import Foundation
-import CoreGraphics
 
 public struct Point: Codable, Hashable {
     static let all = Set((0 ..< 3).flatMap { x in
