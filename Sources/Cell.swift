@@ -1,6 +1,6 @@
 import Foundation
 
-public struct Cell: Hashable {
+public struct Cell: Codable, Hashable {
     public internal(set) var state: Match.State
     public let bead: Bead
     let point: Point

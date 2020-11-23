@@ -1,7 +1,7 @@
 import Foundation
 import CoreGraphics
 
-public struct Match {
+public struct Match: Codable {
     public internal(set) var state = State.new
     public private(set) var cells = Set<Cell>()
     

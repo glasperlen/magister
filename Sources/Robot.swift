@@ -1,9 +1,8 @@
 import Foundation
 
-public struct Robot {
+public struct Robot: Codable {
     public internal(set) var beads: [Bead]
     public let name: String
-    public let state = Match.State.first
     
     public init(_ user: [Bead]) {
         beads = Factory.beads(tier: user.map(\.tier).max() ?? 0)
@@ -17,7 +16,7 @@ public struct Robot {
                 beads
                     .filter { !match[$0] }
                     .map {
-                        Cell(state: state, bead: $0, point: point)
+                        Cell(state: .first, bead: $0, point: point)
                     }
             }.max {
                 $0.join {
