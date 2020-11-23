@@ -10,20 +10,20 @@ final class ScoreTests: XCTestCase {
     }
     
     func testInitial() {
-        XCTAssertEqual(.draw, match[.first])
-        XCTAssertEqual(.draw, match[.second])
+        XCTAssertEqual(0.5, match[.first])
+        XCTAssertEqual(0.5, match[.second])
     }
     
     func testFirstTurn() {
         match[.init(0, 0)] = .init()
-        XCTAssertEqual(.win(1), match[.second])
-        XCTAssertEqual(.loose(0), match[.first])
+        XCTAssertEqual(1, match[.second])
+        XCTAssertEqual(0, match[.first])
     }
     
     func test1Second() {
         match[.init(0, 0)] = .init()
         match[.init(2, 2)] = .init()
-        XCTAssertEqual(.draw, match[.first])
-        XCTAssertEqual(.draw, match[.second])
+        XCTAssertEqual(0.5, match[.first])
+        XCTAssertEqual(0.5, match[.second])
     }
 }

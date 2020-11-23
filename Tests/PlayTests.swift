@@ -11,8 +11,8 @@ final class PlayTests: XCTestCase {
     }
     
     func testBeforeFirst() {
-        XCTAssertEqual(.draw, match[.first])
-        XCTAssertEqual(.draw, match[.second])
+        XCTAssertEqual(0.5, match[.first])
+        XCTAssertEqual(0.5, match[.second])
     }
     
     func testFirstMove() {
@@ -20,7 +20,7 @@ final class PlayTests: XCTestCase {
         XCTAssertFalse(match[bead])
         match[.init(0, 0)] = bead
         XCTAssertTrue(match[bead])
-        XCTAssertEqual(.win(1), match[.first])
+        XCTAssertEqual(1, match[.first])
         XCTAssertEqual(.first, match[.init(0, 0)]?.state)
         XCTAssertEqual(.second, match.state)
     }
@@ -28,7 +28,7 @@ final class PlayTests: XCTestCase {
     func testSecondMove() {
         match[.init(0, 0)] = .init()
         match[.init(1, 0)] = .init(left: 1)
-        XCTAssertEqual(.win(1), match[.second])
+        XCTAssertEqual(1, match[.second])
         XCTAssertEqual(.second, match[.init(0, 0)]?.state)
         XCTAssertEqual(.second, match[.init(1, 0)]?.state)
         XCTAssertEqual(.first, match.state)
@@ -58,7 +58,7 @@ final class PlayTests: XCTestCase {
         match[.init(0, 1)] = .init(state: .second, bead: .init(), point: .init(0, 1))
         match[.init(1, 1)] = .init(state: .second, bead: .init(), point: .init(1, 1))
         match[.init(2, 1)] = .init()
-        XCTAssertEqual(.win(0.5555556), match[.second])
+        XCTAssertEqual(0.5555556, match[.second])
         XCTAssertEqual(.prizeRobot, match.state)
     }
     
@@ -72,7 +72,7 @@ final class PlayTests: XCTestCase {
         match[.init(0, 1)] = .init(state: .second, bead: .init(), point: .init(0, 1))
         match[.init(1, 1)] = .init(state: .first, bead: .init(), point: .init(1, 1))
         match[.init(2, 1)] = .init()
-        XCTAssertEqual(.loose(0.44444445), match[.second])
+        XCTAssertEqual(0.44444445, match[.second])
         XCTAssertEqual(.remove, match.state)
     }
 }

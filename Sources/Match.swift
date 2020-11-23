@@ -36,8 +36,8 @@ public struct Match: Codable {
                 if cells.count == 9 {
                     state = {
                         switch $0 {
-                        case .win: return robot == nil ? .prizeFirst : .remove
-                        default: return robot == nil ? .prizeSecond : .prizeRobot
+                        case ..<0.5: return robot == nil ? .prizeSecond : .prizeRobot
+                        default: return robot == nil ? .prizeFirst : .remove
                         }
                     } (self[.first])
                 } else {
@@ -59,14 +59,8 @@ public struct Match: Codable {
         }
     }
     
-    public subscript(_ state: State) -> Result {
-        {
-            switch $0 {
-            case 0.5: return .draw
-            case ..<0.5: return .loose($0)
-            default: return .win($0)
-            }
-        } (cells.isEmpty ? Float(0.5) : .init(cells.filter { $0.state == state }.count) / .init(cells.count))
+    public subscript(_ state: State) -> Float {
+        cells.isEmpty ? 0.5 : .init(cells.filter { $0.state == state }.count) / .init(cells.count)
     }
     
     public subscript(_ bead: Bead) -> Bool {

@@ -14,7 +14,7 @@ final class RobotTests: XCTestCase {
         match.robot?.play(match).map {
             match[$0.point] = $0.bead
         }
-        XCTAssertEqual(.loose(0), match[.second])
+        XCTAssertEqual(0, match[.second])
         XCTAssertEqual(.second, match.state)
     }
     

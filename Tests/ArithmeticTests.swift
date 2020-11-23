@@ -12,25 +12,25 @@ final class ArithmeticTests: XCTestCase {
     func testDistance() {
         match[.init(0, 0)] = .init()
         match[.init(2, 0)] = .init(left: 1)
-        XCTAssertEqual(.draw, match[.first])
+        XCTAssertEqual(0.5, match[.first])
     }
 
     func testGreater() {
         match[.init(0, 0)] = .init()
         match[.init(1, 0)] = .init(left: 1)
-        XCTAssertEqual(.win(1), match[.second])
+        XCTAssertEqual(1, match[.second])
     }
 
     func testLess() {
         match[.init(0, 0)] = .init(right: 1)
         match[.init(1, 0)] = .init()
-        XCTAssertEqual(.draw, match[.first])
+        XCTAssertEqual(0.5, match[.first])
     }
 
     func testEqual() {
         match[.init(0, 0)] = .init(right: 1)
         match[.init(1, 0)] = .init(left: 1)
-        XCTAssertEqual(.draw, match[.first])
+        XCTAssertEqual(0.5, match[.first])
     }
 
     func testGreaterSamePlayer() {
@@ -38,6 +38,6 @@ final class ArithmeticTests: XCTestCase {
         match[.init(2, 2)] = .init()
         match[.init(1, 0)] = .init(left: 1)
         match[.init(0, 2)] = .init()
-        XCTAssertEqual(.draw, match[.first])
+        XCTAssertEqual(0.5, match[.first])
     }
 }
