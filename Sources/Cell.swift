@@ -3,7 +3,7 @@ import Foundation
 public struct Cell: Codable, Hashable {
     public internal(set) var state: Match.State
     public let bead: Bead
-    let point: Point
+    public let point: Point
     
     func join(transform: (Point) -> Self?) -> [Point] {
         point.relations.compactMap { relation in
