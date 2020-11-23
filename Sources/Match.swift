@@ -18,31 +18,29 @@ public struct Match: Codable {
     
     public init() { }
     
-    public subscript(_ point: Point) -> Bead? {
+    public subscript(_ point: Point) -> Bead {
         get {
-            cells.first { $0.point == point }?.bead
+            cells.first { $0.point == point }!.bead
         }
         set {
-            newValue.map {
-                cells.insert({
-                    $0.join {
-                        self[$0]
-                    }.forEach {
-                        self[$0]!.state = state
-                    }
-                    return $0
-                } (Cell(state: state, bead: $0, point: point)))
-                
-                if cells.count == 9 {
-                    state = {
-                        switch $0 {
-                        case ..<0.5: return robot == nil ? .prizeSecond : .prizeRobot
-                        default: return robot == nil ? .prizeFirst : .remove
-                        }
-                    } (self[.first])
-                } else {
-                    state = state.next
+            cells.insert({
+                $0.join {
+                    self[$0]
+                }.forEach {
+                    self[$0]!.state = state
                 }
+                return $0
+            } (Cell(state: state, bead: newValue, point: point)))
+            
+            if cells.count == 9 {
+                state = {
+                    switch $0 {
+                    case ..<0.5: return robot == nil ? .prizeSecond : .prizeRobot
+                    default: return robot == nil ? .prizeFirst : .remove
+                    }
+                } (self[.first])
+            } else {
+                state = state.next
             }
         }
     }
