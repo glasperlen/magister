@@ -45,7 +45,7 @@ final class PlayTests: XCTestCase {
         match.robot?.play(match).map {
             match[$0.point] = $0.bead
         }
-        XCTAssertEqual(.prize, match.state)
+        XCTAssertEqual(.remove, match.state)
     }
     
     func testFinishWin() {
@@ -59,7 +59,7 @@ final class PlayTests: XCTestCase {
         match[.init(1, 1)] = .init(state: .second, bead: .init(), point: .init(1, 1))
         match[.init(2, 1)] = .init()
         XCTAssertEqual(.win(0.5555556), match[.second])
-        XCTAssertEqual(.prize, match.state)
+        XCTAssertEqual(.prizeRobot, match.state)
     }
     
     func testFinishLoose() {
@@ -73,6 +73,6 @@ final class PlayTests: XCTestCase {
         match[.init(1, 1)] = .init(state: .first, bead: .init(), point: .init(1, 1))
         match[.init(2, 1)] = .init()
         XCTAssertEqual(.loose(0.44444445), match[.second])
-        XCTAssertEqual(.prize, match.state)
+        XCTAssertEqual(.remove, match.state)
     }
 }

@@ -7,7 +7,9 @@ extension Match {
         matching,
         first,
         second,
-        prize,
+        prizeRobot,
+        prizeFirst,
+        prizeSecond,
         remove,
         end
         

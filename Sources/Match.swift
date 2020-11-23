@@ -2,7 +2,7 @@ import Foundation
 import CoreGraphics
 
 public struct Match {
-    public internal(set) var state = State.matching
+    public internal(set) var state = State.new
     public private(set) var cells = Set<Cell>()
     
     public var robot: Robot? {
@@ -35,7 +35,12 @@ public struct Match {
                 } (Cell(state: state, bead: $0, point: point)))
                 
                 if cells.count == 9 {
-                    state = .prize
+                    state = {
+                        switch $0 {
+                        case .win: return robot == nil ? .prizeFirst : .remove
+                        default: return robot == nil ? .prizeSecond : .prizeRobot
+                        }
+                    } (self[.first])
                 } else {
                     state = state.next
                 }
@@ -69,11 +74,26 @@ public struct Match {
         cells.contains { $0.bead == bead }
     }
     
+    mutating public func multiplayer() {
+        state = .matching
+    }
+    
     mutating public func matched() {
         state = state.next
     }
     
+    mutating public func removed() {
+        state = .end
+    }
+    
     mutating public func quit() {
-        
+        state = {
+            switch state {
+            case .new, .matching: return .end
+            case .first: return robot == nil ? .prizeSecond : .prizeRobot
+            case .second: return robot == nil ? .prizeFirst : .remove
+            default: return state
+            }
+        } ()
     }
 }
