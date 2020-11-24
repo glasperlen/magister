@@ -60,6 +60,8 @@ final class PlayTests: XCTestCase {
         match[.init(2, 1)] = .init()
         XCTAssertEqual(0.5555556, match[.second])
         XCTAssertEqual(.prizeRobot, match.state)
+        match.prize = .init()
+        XCTAssertEqual(.end, match.state)
     }
     
     func testFinishLoose() {
@@ -74,5 +76,7 @@ final class PlayTests: XCTestCase {
         match[.init(2, 1)] = .init()
         XCTAssertEqual(0.44444445, match[.second])
         XCTAssertEqual(.remove, match.state)
+        match.removed()
+        XCTAssertEqual(.end, match.state)
     }
 }
