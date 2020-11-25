@@ -8,33 +8,44 @@ final class QuitTests: XCTestCase {
         match = .init()
     }
     
-    func testNew() {
-        match.quit()
+    func testNewFirst() {
+        match.quitFirst()
         XCTAssertEqual(.end, match.state)
     }
     
-    func testMatching() {
+    func testNewSecond() {
+        match.quitSecond()
+        XCTAssertEqual(.end, match.state)
+    }
+    
+    func testMatchingFirst() {
         match.multiplayer()
-        match.quit()
+        match.quitFirst()
+        XCTAssertEqual(.end, match.state)
+    }
+    
+    func testMatchingSecond() {
+        match.multiplayer()
+        match.quitSecond()
         XCTAssertEqual(.end, match.state)
     }
     
     func testRobot() {
         match.robot = .init([])
         match.state = .second
-        match.quit()
+        match.quitSecond()
         XCTAssertEqual(.remove, match.state)
     }
     
     func testFirst() {
-        match.state = .first
-        match.quit()
+        match.state = .second
+        match.quitFirst()
         XCTAssertEqual(.prizeSecond, match.state)
     }
     
     func testSecond() {
-        match.state = .second
-        match.quit()
+        match.state = .first
+        match.quitSecond()
         XCTAssertEqual(.prizeFirst, match.state)
     }
 }

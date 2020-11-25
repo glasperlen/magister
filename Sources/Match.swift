@@ -77,12 +77,21 @@ public struct Match: Codable {
         state = .end
     }
     
-    mutating public func quit() {
+    mutating public func quitFirst() {
         state = {
             switch state {
             case .new, .matching: return .end
-            case .first: return robot == nil ? .prizeSecond : .prizeRobot
-            case .second: return robot == nil ? .prizeFirst : .remove
+            case .first, .second: return robot == nil ? .prizeSecond : .prizeRobot
+            default: return state
+            }
+        } ()
+    }
+    
+    mutating public func quitSecond() {
+        state = {
+            switch state {
+            case .new, .matching: return .end
+            case .first, .second: return robot == nil ? .prizeFirst : .remove
             default: return state
             }
         } ()
