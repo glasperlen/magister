@@ -21,7 +21,7 @@ final class PlayTests: XCTestCase {
         match[.init(0, 0)] = bead
         XCTAssertTrue(match[bead])
         XCTAssertEqual(1, match[.first])
-        XCTAssertEqual(.first, match[.init(0, 0)]?.state)
+        XCTAssertEqual(.first, match[.init(0, 0)]?.player)
         XCTAssertEqual(.second, match.state)
     }
     
@@ -29,8 +29,8 @@ final class PlayTests: XCTestCase {
         match[.init(0, 0)] = .init()
         match[.init(1, 0)] = .init(left: 1)
         XCTAssertEqual(1, match[.second])
-        XCTAssertEqual(.second, match[.init(0, 0)]?.state)
-        XCTAssertEqual(.second, match[.init(1, 0)]?.state)
+        XCTAssertEqual(.second, match[.init(0, 0)]?.player)
+        XCTAssertEqual(.second, match[.init(1, 0)]?.player)
         XCTAssertEqual(.first, match.state)
     }
     

@@ -28,7 +28,7 @@ final class RobotTests: XCTestCase {
         match.robot?.play(match).map {
             match[$0.point] = $0.bead
         }
-        XCTAssertEqual(.first, match[.init(0, 0)]?.state)
+        XCTAssertEqual(.first, match[.init(0, 0)]?.player)
     }
     
     func testFirstAttack() {
@@ -38,6 +38,6 @@ final class RobotTests: XCTestCase {
         match.robot?.play(match).map {
             match[$0.point] = $0.bead
         }
-        XCTAssertEqual(.first, match[.init(2, 1)]?.state)
+        XCTAssertEqual(.first, match[.init(2, 1)]?.player)
     }
 }

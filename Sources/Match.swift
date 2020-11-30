@@ -2,19 +2,8 @@ import Foundation
 
 public struct Match: Codable {
     public internal(set) var state = State.new
+    public private(set) var players = [Turn : Player]()
     public private(set) var cells = Set<Cell>()
-    
-    public var robot: Robot? {
-        didSet {
-            state = state.next
-        }
-    }
-    
-    public var prize: Bead? {
-        didSet {
-            state = .end
-        }
-    }
     
     public init() { }
     
@@ -23,24 +12,20 @@ public struct Match: Codable {
             cells.first { $0.point == point }!.bead
         }
         set {
+            guard case let State.play(turn) = state else { return }
             cells.insert({
                 $0.join {
                     self[$0]
                 }.forEach {
-                    self[$0]!.state = state
+                    self[$0]!.player = turn
                 }
                 return $0
-            } (Cell(state: state, bead: newValue, point: point)))
+            } (Cell(player: turn, bead: newValue, point: point)))
             
             if cells.count == 9 {
-                state = {
-                    switch $0 {
-                    case ..<0.5: return robot == nil ? .prizeSecond : .prizeRobot
-                    default: return robot == nil ? .prizeFirst : .remove
-                    }
-                } (self[.first])
+                state = .win(self[.first] > self[.second] ? .first : .second)
             } else {
-                state = state.next
+                state = .play(turn.negative)
             }
         }
     }
@@ -57,43 +42,19 @@ public struct Match: Codable {
         }
     }
     
-    public subscript(_ state: State) -> Float {
-        cells.isEmpty ? 0.5 : .init(cells.filter { $0.state == state }.count) / .init(cells.count)
-    }
-    
     public subscript(_ bead: Bead) -> Bool {
         cells.contains { $0.bead == bead }
     }
     
-    mutating public func multiplayer() {
-        state = .matching
+    public subscript(_ id: UUID) -> Turn {
+        players.first { $0.1.id == id }!.0
     }
     
-    mutating public func matched() {
-        state = state.next
+    public subscript(_ player: Turn) -> Int {
+        cells.filter { $0.player == player }.count
     }
     
-    mutating public func removed() {
-        state = .end
-    }
-    
-    mutating public func quitFirst() {
-        state = {
-            switch state {
-            case .new, .matching: return .end
-            case .first, .second: return robot == nil ? .prizeSecond : .prizeRobot
-            default: return state
-            }
-        } ()
-    }
-    
-    mutating public func quitSecond() {
-        state = {
-            switch state {
-            case .new, .matching: return .end
-            case .first, .second: return robot == nil ? .prizeFirst : .remove
-            default: return state
-            }
-        } ()
+    mutating public func quit(_ id: UUID) {
+        state = .win(self[id].negative)
     }
 }
