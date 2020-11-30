@@ -54,6 +54,16 @@ public struct Match: Codable {
         cells.filter { $0.player == player }.count
     }
     
+    mutating public func join(_ player: Player) {
+        players[players.isEmpty ? .first : .second] = player
+        state = players.count == 2 ? .play(Turn.allCases.randomElement()!) : .matching
+    }
+    
+    mutating public func timeout() {
+        guard case let State.play(turn) = state else { return }
+        state = .timeout(turn)
+    }
+    
     mutating public func quit(_ id: UUID) {
         state = .win(self[id].negative)
     }
