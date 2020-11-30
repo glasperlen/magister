@@ -55,7 +55,7 @@ final class PlayTests: XCTestCase {
                 match[.init(x, y)] = .init(player: initial, bead: .init(), point: .init(x, y))
             }
         }
-        match.players[initial]!.play(match).map {
+        match[initial].play(match).map {
             match[$0.point] = $0.bead
         }
         if case let .win(turn) = match.state {

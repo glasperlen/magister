@@ -1,9 +1,9 @@
 import Foundation
 
 public struct Match: Codable {
-    public internal(set) var players = [Turn : Player]()
     public private(set) var cells = Set<Cell>()
     public private(set) var state = State.new
+    var players = [Turn : Player]()
     
     public init() { }
     
@@ -48,6 +48,10 @@ public struct Match: Codable {
     
     public subscript(_ id: UUID) -> Turn {
         players.first { $0.1.id == id }!.0
+    }
+    
+    public subscript(_ player: Turn) -> Player {
+        players[player]!
     }
     
     public subscript(_ player: Turn) -> Int {
