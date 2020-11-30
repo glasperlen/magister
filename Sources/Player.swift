@@ -5,14 +5,12 @@ public struct Player: Codable {
     public let name: String
     public let beads: [Bead]
     
-    public static func robot(_ user: Self) -> Self {
-        .init(.init(), "Robot\(Int.random(in: 0 ..< 100))", Bead.make(tier: user.beads.map(\.tier).max() ?? 0))
+    public static func user(_ id: UUID, _ name: String, _ beads: [Bead]) -> Self {
+        .init(id: id, name: name, beads: beads)
     }
     
-    private init(_ id: UUID, _ name: String, _ beads: [Bead]) {
-        self.id = id
-        self.name = name
-        self.beads = beads
+    public static func robot(_ user: Self) -> Self {
+        .init(id: .init(), name: "Robot\(Int.random(in: 0 ..< 100))", beads: Bead.make(tier: user.beads.map(\.tier).max() ?? 0))
     }
     
     public func play(_ match: Match) -> Cell? {

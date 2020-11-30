@@ -1,9 +1,9 @@
 import Foundation
 
 public struct Match: Codable {
-    public internal(set) var state = State.new
-    public private(set) var players = [Turn : Player]()
+    public internal(set) var players = [Turn : Player]()
     public private(set) var cells = Set<Cell>()
+    public private(set) var state = State.new
     
     public init() { }
     
@@ -12,7 +12,7 @@ public struct Match: Codable {
             cells.first { $0.point == point }!.bead
         }
         set {
-            guard case let State.play(turn) = state else { return }
+            guard case let .play(turn) = state else { return }
             cells.insert({
                 $0.join {
                     self[$0]
@@ -54,17 +54,21 @@ public struct Match: Codable {
         cells.filter { $0.player == player }.count
     }
     
+    mutating public func timeout() {
+        guard case let .play(turn) = state else { return }
+        state = .timeout(turn)
+    }
+    
     mutating public func join(_ player: Player) {
         players[players.isEmpty ? .first : .second] = player
         state = players.count == 2 ? .play(Turn.allCases.randomElement()!) : .matching
     }
     
-    mutating public func timeout() {
-        guard case let State.play(turn) = state else { return }
-        state = .timeout(turn)
-    }
-    
     mutating public func quit(_ id: UUID) {
         state = .win(self[id].negative)
+    }
+    
+    mutating public func prize(_ bead: Bead) {
+        state = .end(bead)
     }
 }

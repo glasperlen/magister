@@ -1,7 +1,7 @@
 import Foundation
 
 extension Match {
-    public enum State: Codable {
+    public enum State: Codable, Equatable {
         case
         new,
         matching,

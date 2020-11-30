@@ -6,31 +6,36 @@ final class ArithmeticTests: XCTestCase {
     
     override func setUp() {
         match = .init()
-        match.state = .first
+        match.join(.user(.init(), "", []))
+        match.join(.user(.init(), "", []))
     }
     
     func testDistance() {
         match[.init(0, 0)] = .init()
         match[.init(2, 0)] = .init(left: 1)
-        XCTAssertEqual(0.5, match[.first])
+        XCTAssertEqual(match[.first], match[.second])
     }
 
     func testGreater() {
-        match[.init(0, 0)] = .init()
-        match[.init(1, 0)] = .init(left: 1)
-        XCTAssertEqual(1, match[.second])
+        if case let .play(turn) = match.state {
+            match[.init(0, 0)] = .init()
+            match[.init(1, 0)] = .init(left: 1)
+            XCTAssertGreaterThan(match[turn.negative], match[turn])
+        } else {
+            XCTFail()
+        }
     }
 
     func testLess() {
         match[.init(0, 0)] = .init(right: 1)
         match[.init(1, 0)] = .init()
-        XCTAssertEqual(0.5, match[.first])
+        XCTAssertEqual(match[.first], match[.second])
     }
 
     func testEqual() {
         match[.init(0, 0)] = .init(right: 1)
         match[.init(1, 0)] = .init(left: 1)
-        XCTAssertEqual(0.5, match[.first])
+        XCTAssertEqual(match[.first], match[.second])
     }
 
     func testGreaterSamePlayer() {
@@ -38,6 +43,6 @@ final class ArithmeticTests: XCTestCase {
         match[.init(2, 2)] = .init()
         match[.init(1, 0)] = .init(left: 1)
         match[.init(0, 2)] = .init()
-        XCTAssertEqual(0.5, match[.first])
+        XCTAssertEqual(match[.first], match[.second])
     }
 }
