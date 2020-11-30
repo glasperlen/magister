@@ -46,7 +46,7 @@ public struct Match: Codable {
         cells.contains { $0.bead == bead }
     }
     
-    public subscript(_ id: UUID) -> Turn {
+    public subscript(_ id: String) -> Turn {
         players.first { $0.1.id == id }!.0
     }
     
@@ -68,7 +68,7 @@ public struct Match: Codable {
         state = players.count == 2 ? .play(Turn.allCases.randomElement()!) : .matching
     }
     
-    mutating public func quit(_ id: UUID) {
+    mutating public func quit(_ id: String) {
         state = .win(self[id].negative)
     }
     

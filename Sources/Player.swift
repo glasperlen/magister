@@ -1,16 +1,16 @@
 import Foundation
 
 public struct Player: Codable {
-    public let id: UUID
+    public let id: String
     public let name: String
     public let beads: [Bead]
     
-    public static func user(_ id: UUID, _ name: String, _ beads: [Bead]) -> Self {
+    public static func user(_ id: String, _ name: String, _ beads: [Bead]) -> Self {
         .init(id: id, name: name, beads: beads)
     }
     
     public static func robot(_ user: Self) -> Self {
-        .init(id: .init(), name: "Robot\(Int.random(in: 0 ..< 100))", beads: Bead.make(tier: user.beads.map(\.tier).max() ?? 0))
+        .init(id: "", name: "Robot\(Int.random(in: 0 ..< 100))", beads: Bead.make(tier: user.beads.map(\.tier).max() ?? 0))
     }
     
     public func play(_ match: Match) -> Cell? {
