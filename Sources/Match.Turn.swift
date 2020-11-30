@@ -6,7 +6,7 @@ extension Match {
         first,
         second
         
-        var negative: Self {
+        public var negative: Self {
             switch self {
             case .first: return .second
             case .second: return .first
