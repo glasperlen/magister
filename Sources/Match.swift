@@ -63,6 +63,10 @@ public struct Match: Codable {
         state = .timeout(turn)
     }
     
+    mutating public func cancel() {
+        state = .cancel
+    }
+    
     mutating public func join(_ player: Player) {
         players[players.isEmpty ? .first : .second] = player
         state = players.count == 2 ? .play(Turn.allCases.randomElement()!) : .matching

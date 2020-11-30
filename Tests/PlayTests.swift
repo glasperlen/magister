@@ -20,6 +20,13 @@ final class PlayTests: XCTestCase {
         XCTAssertEqual(.new, Match().state)
     }
     
+    func testCancel() {
+        match = .init()
+        match.join(.robot(.user(.init(), "", [])))
+        match.cancel()
+        XCTAssertEqual(.cancel, match.state)
+    }
+    
     func testFirstMove() {
         let bead = Bead()
         XCTAssertFalse(match[bead])
