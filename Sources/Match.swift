@@ -78,8 +78,8 @@ public struct Match: Codable {
     
     mutating public func prize(_ bead: Bead) {
         switch state {
-        case let .win(winner): state = .end(.init(turn: winner, bead: bead))
-        case let .timeout(looser): state = .end(.init(turn: looser.negative, bead: bead))
+        case let .win(winner): state = .end(.init(winner: winner, bead: bead))
+        case let .timeout(looser): state = .end(.init(winner: looser.negative, bead: bead))
         default: break
         }
     }

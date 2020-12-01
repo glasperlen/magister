@@ -92,7 +92,7 @@ final class PlayTests: XCTestCase {
         match.prize(bead)
         if case let .end(result) = match.state {
             XCTAssertEqual(bead, result.bead)
-            XCTAssertEqual(initial.negative, result.turn)
+            XCTAssertEqual(initial.negative, result.winner)
         } else {
             XCTFail()
         }
@@ -109,7 +109,7 @@ final class PlayTests: XCTestCase {
         match.prize(bead)
         if case let .end(result) = match.state {
             XCTAssertEqual(bead, result.bead)
-            XCTAssertEqual(initial.negative, result.turn)
+            XCTAssertEqual(initial.negative, result.winner)
         } else {
             XCTFail()
         }
