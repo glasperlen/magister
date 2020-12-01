@@ -60,7 +60,7 @@ public struct Match: Codable {
     
     mutating public func timeout() {
         switch state {
-        case let .play(turn): state = .timeout(turn)
+        case let .play(wait): state = .timeout(.init(wait.player))
         case .win, .timeout: state = .cancel
         default: break
         }
