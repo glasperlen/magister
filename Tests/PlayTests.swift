@@ -117,4 +117,36 @@ final class PlayTests: XCTestCase {
             XCTFail()
         }
     }
+    
+    func testFinishWinTimeout() {
+        (0 ..< 3).map { .init($0, 0) }.forEach {
+            match[$0] = .init(player: initial, bead: .init(), point: $0)
+        }
+        (0 ..< 3).map { .init($0, 2) }.forEach {
+            match[$0] = .init(player: initial.negative, bead: .init(), point: $0)
+        }
+        match[.init(0, 1)] = .init(player: initial.negative, bead: .init(), point: .init(0, 1))
+        match[.init(1, 1)] = .init(player: initial.negative, bead: .init(), point: .init(1, 1))
+        match[.init(2, 1)] = .init()
+        XCTAssertGreaterThan(match[initial.negative], match[initial])
+        if case let .win(wait) = match.state {
+            XCTAssertEqual(initial.negative, wait.player)
+        } else {
+            XCTFail()
+        }
+        match.timeout()
+        XCTAssertEqual(.cancel, match.state)
+    }
+    
+    func testFinishTimeoutTimeout() {
+        match.timeout()
+        if case let .timeout(wait) = match.state {
+            XCTAssertEqual(initial, wait.player)
+            XCTAssertGreaterThan(wait.timeout, .init())
+        } else {
+            XCTFail()
+        }
+        match.timeout()
+        XCTAssertEqual(.cancel, match.state)
+    }
 }

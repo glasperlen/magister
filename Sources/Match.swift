@@ -59,8 +59,11 @@ public struct Match: Codable {
     }
     
     mutating public func timeout() {
-        guard case let .play(turn) = state else { return }
-        state = .timeout(turn)
+        switch state {
+        case let .play(turn): state = .timeout(turn)
+        case .win, .timeout: state = .cancel
+        default: break
+        }
     }
     
     mutating public func cancel() {
