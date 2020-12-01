@@ -7,7 +7,7 @@ extension Match {
         
         init(_ player: Turn) {
             self.player = player
-            timeout = Calendar.current.date(byAdding: .minute, value: 3, to: .init())!
+            timeout = Calendar.current.date(byAdding: .minute, value: 1, to: .init())!
         }
     }
 }
