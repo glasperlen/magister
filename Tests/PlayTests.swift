@@ -90,8 +90,26 @@ final class PlayTests: XCTestCase {
         }
         let bead = Bead()
         match.prize(bead)
-        if case let .end(prize) = match.state {
-            XCTAssertEqual(prize, bead)
+        if case let .end(result) = match.state {
+            XCTAssertEqual(bead, result.bead)
+            XCTAssertEqual(initial.negative, result.turn)
+        } else {
+            XCTFail()
+        }
+    }
+    
+    func testFinishTimeout() {
+        match.timeout()
+        if case let .timeout(turn) = match.state {
+            XCTAssertEqual(initial, turn)
+        } else {
+            XCTFail()
+        }
+        let bead = Bead()
+        match.prize(bead)
+        if case let .end(result) = match.state {
+            XCTAssertEqual(bead, result.bead)
+            XCTAssertEqual(initial.negative, result.turn)
         } else {
             XCTFail()
         }

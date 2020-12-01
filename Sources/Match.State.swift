@@ -9,7 +9,7 @@ extension Match {
         play(Turn),
         timeout(Turn),
         win(Turn),
-        end(Bead)
+        end(Result)
         
         public init(from: Decoder) throws {
             self = try {
@@ -28,8 +28,8 @@ extension Match {
                 if let turn = try $0.decodeIfPresent(Turn.self, forKey: .win) {
                     return .win(turn)
                 }
-                if let bead = try $0.decodeIfPresent(Bead.self, forKey: .end) {
-                    return .end(bead)
+                if let result = try $0.decodeIfPresent(Result.self, forKey: .end) {
+                    return .end(result)
                 }
                 return .new
             } (from.container(keyedBy: Key.self))
@@ -44,7 +44,7 @@ extension Match {
             case let .play(turn): try container.encode(turn, forKey: .play)
             case let .timeout(turn): try container.encode(turn, forKey: .timeout)
             case let .win(turn): try container.encode(turn, forKey: .win)
-            case let .end(bead): try container.encode(bead, forKey: .end)
+            case let .end(result): try container.encode(result, forKey: .end)
             }
         }
         
