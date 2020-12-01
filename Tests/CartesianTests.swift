@@ -15,11 +15,11 @@ final class CartesianTests: XCTestCase {
                             var match = Match()
                             match.join(.user(.init(), "", []))
                             match.join(.user(.init(), "", []))
-                            if case let .play(turn) = match.state {
+                            if case let .play(wait) = match.state {
                                 match[.init(x2, y2)] = .init()
                                 match[.init(x1, y1)] = .init(top: 1, bottom: 1, left: 1, right: 1)
-                                XCTAssertEqual(2, match[turn.negative], "\(x1),\(y1) vs \(x2),\(y2)")
-                                XCTAssertGreaterThan(match[turn.negative], match[turn])
+                                XCTAssertEqual(2, match[wait.player.negative], "\(x1),\(y1) vs \(x2),\(y2)")
+                                XCTAssertGreaterThan(match[wait.player.negative], match[wait.player])
                             } else {
                                 XCTFail()
                             }

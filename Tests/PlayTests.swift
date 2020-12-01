@@ -9,8 +9,8 @@ final class PlayTests: XCTestCase {
         match = .init()
         match.join(.robot(.user(.init(), "", [])))
         match.join(.robot(.user(.init(), "", [])))
-        if case let .play(turn) = match.state {
-            initial = turn
+        if case let .play(wait) = match.state {
+            initial = wait.player
         } else {
             XCTFail()
         }
@@ -34,8 +34,9 @@ final class PlayTests: XCTestCase {
         XCTAssertTrue(match[bead])
         XCTAssertEqual(1, match[initial])
         XCTAssertEqual(initial, match[.init(0, 0)]?.player)
-        if case let .play(turn) = match.state {
-            XCTAssertEqual(initial.negative, turn)
+        if case let .play(wait) = match.state {
+            XCTAssertEqual(initial.negative, wait.player)
+            XCTAssertGreaterThan(wait.timeout, .init())
         } else {
             XCTFail()
         }
@@ -48,8 +49,8 @@ final class PlayTests: XCTestCase {
         XCTAssertGreaterThan(match[initial.negative], match[initial])
         XCTAssertEqual(initial.negative, match[.init(0, 0)]?.player)
         XCTAssertEqual(initial.negative, match[.init(1, 0)]?.player)
-        if case let .play(turn) = match.state {
-            XCTAssertEqual(initial, turn)
+        if case let .play(wait) = match.state {
+            XCTAssertEqual(initial, wait.player)
         } else {
             XCTFail()
         }
@@ -65,8 +66,9 @@ final class PlayTests: XCTestCase {
         match[initial].play(match).map {
             match[$0.point] = $0.bead
         }
-        if case let .win(turn) = match.state {
-            XCTAssertEqual(initial, turn)
+        if case let .win(wait) = match.state {
+            XCTAssertEqual(initial, wait.player)
+            XCTAssertGreaterThan(wait.timeout, .init())
         } else {
             XCTFail()
         }
@@ -83,8 +85,8 @@ final class PlayTests: XCTestCase {
         match[.init(1, 1)] = .init(player: initial.negative, bead: .init(), point: .init(1, 1))
         match[.init(2, 1)] = .init()
         XCTAssertGreaterThan(match[initial.negative], match[initial])
-        if case let .win(turn) = match.state {
-            XCTAssertEqual(initial.negative, turn)
+        if case let .win(wait) = match.state {
+            XCTAssertEqual(initial.negative, wait.player)
         } else {
             XCTFail()
         }
@@ -100,8 +102,9 @@ final class PlayTests: XCTestCase {
     
     func testFinishTimeout() {
         match.timeout()
-        if case let .timeout(turn) = match.state {
-            XCTAssertEqual(initial, turn)
+        if case let .timeout(wait) = match.state {
+            XCTAssertEqual(initial, wait.player)
+            XCTAssertGreaterThan(wait.timeout, .init())
         } else {
             XCTFail()
         }

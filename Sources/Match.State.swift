@@ -6,9 +6,9 @@ extension Match {
         new,
         matching,
         cancel,
-        play(Turn),
-        timeout(Turn),
-        win(Turn),
+        play(Wait),
+        timeout(Wait),
+        win(Wait),
         end(Result)
         
         public init(from: Decoder) throws {
@@ -19,14 +19,14 @@ extension Match {
                 if try $0.decodeIfPresent(Key.self, forKey: .cancel) != nil {
                     return .cancel
                 }
-                if let turn = try $0.decodeIfPresent(Turn.self, forKey: .play) {
-                    return .play(turn)
+                if let wait = try $0.decodeIfPresent(Wait.self, forKey: .play) {
+                    return .play(wait)
                 }
-                if let turn = try $0.decodeIfPresent(Turn.self, forKey: .timeout) {
-                    return .timeout(turn)
+                if let wait = try $0.decodeIfPresent(Wait.self, forKey: .timeout) {
+                    return .timeout(wait)
                 }
-                if let turn = try $0.decodeIfPresent(Turn.self, forKey: .win) {
-                    return .win(turn)
+                if let wait = try $0.decodeIfPresent(Wait.self, forKey: .win) {
+                    return .win(wait)
                 }
                 if let result = try $0.decodeIfPresent(Result.self, forKey: .end) {
                     return .end(result)
@@ -41,9 +41,9 @@ extension Match {
             case .new: try container.encode(Key.new, forKey: .new)
             case .matching: try container.encode(Key.matching, forKey: .matching)
             case .cancel: try container.encode(Key.cancel, forKey: .cancel)
-            case let .play(turn): try container.encode(turn, forKey: .play)
-            case let .timeout(turn): try container.encode(turn, forKey: .timeout)
-            case let .win(turn): try container.encode(turn, forKey: .win)
+            case let .play(wait): try container.encode(wait, forKey: .play)
+            case let .timeout(wait): try container.encode(wait, forKey: .timeout)
+            case let .win(wait): try container.encode(wait, forKey: .win)
             case let .end(result): try container.encode(result, forKey: .end)
             }
         }

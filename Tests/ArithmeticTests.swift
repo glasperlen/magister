@@ -17,10 +17,10 @@ final class ArithmeticTests: XCTestCase {
     }
 
     func testGreater() {
-        if case let .play(turn) = match.state {
+        if case let .play(wait) = match.state {
             match[.init(0, 0)] = .init()
             match[.init(1, 0)] = .init(left: 1)
-            XCTAssertGreaterThan(match[turn.negative], match[turn])
+            XCTAssertGreaterThan(match[wait.player.negative], match[wait.player])
         } else {
             XCTFail()
         }

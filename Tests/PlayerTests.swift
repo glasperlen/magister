@@ -9,8 +9,8 @@ final class PlayerTests: XCTestCase {
         match = .init()
         match.join(.robot(.user(.init(), "", [])))
         match.join(.robot(.user(.init(), "", [])))
-        if case let .play(turn) = match.state {
-            initial = turn
+        if case let .play(wait) = match.state {
+            initial = wait.player
         } else {
             XCTFail()
         }
@@ -21,8 +21,8 @@ final class PlayerTests: XCTestCase {
             match[$0.point] = $0.bead
         }
         XCTAssertGreaterThan(match[initial], match[initial.negative])
-        if case let .play(turn) = match.state {
-            XCTAssertEqual(initial.negative, turn)
+        if case let .play(wait) = match.state {
+            XCTAssertEqual(initial.negative, wait.player)
         } else {
             XCTFail()
         }

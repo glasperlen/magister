@@ -12,20 +12,20 @@ public struct Match: Codable {
             cells.first { $0.point == point }!.bead
         }
         set {
-            guard case let .play(turn) = state else { return }
+            guard case let .play(wait) = state else { return }
             cells.insert({
                 $0.join {
                     self[$0]
                 }.forEach {
-                    self[$0]!.player = turn
+                    self[$0]!.player = wait.player
                 }
                 return $0
-            } (Cell(player: turn, bead: newValue, point: point)))
+            } (Cell(player: wait.player, bead: newValue, point: point)))
             
             if cells.count == 9 {
-                state = .win(self[.first] > self[.second] ? .first : .second)
+                state = .win(.init(self[.first] > self[.second] ? .first : .second))
             } else {
-                state = .play(turn.negative)
+                state = .play(.init(wait.player.negative))
             }
         }
     }
@@ -69,17 +69,17 @@ public struct Match: Codable {
     
     mutating public func join(_ player: Player) {
         players[players.isEmpty ? .first : .second] = player
-        state = players.count == 2 ? .play(Turn.allCases.randomElement()!) : .matching
+        state = players.count == 2 ? .play(.init(Turn.allCases.randomElement()!)) : .matching
     }
     
     mutating public func quit(_ id: String) {
-        state = .win(self[id].negative)
+        state = .win(.init(self[id].negative))
     }
     
     mutating public func prize(_ bead: Bead) {
         switch state {
-        case let .win(winner): state = .end(.init(winner: winner, bead: bead))
-        case let .timeout(looser): state = .end(.init(winner: looser.negative, bead: bead))
+        case let .win(winner): state = .end(.init(winner: winner.player, bead: bead))
+        case let .timeout(looser): state = .end(.init(winner: looser.player.negative, bead: bead))
         default: break
         }
     }
