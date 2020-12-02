@@ -149,4 +149,10 @@ final class PlayTests: XCTestCase {
         match.timeout()
         XCTAssertEqual(.cancel, match.state)
     }
+    
+    func testEquality() {
+        let a = Match.State.play(.init(.first))
+        let b = Match.State.play(.init(.second))
+        XCTAssertNotEqual(a, b)
+    }
 }
