@@ -11,9 +11,14 @@ public struct Cell: Codable, Hashable {
     }
     
     subscript(_ item: Item) -> Self {
-        var cell = self
-        cell.item = item
-        return cell
+        get {
+            var cell = self
+            cell.item = item
+            return cell
+        }
+        set {
+            self.item = item
+        }
     }
     
     subscript(_ player: Match.Turn) -> Self {

@@ -18,7 +18,7 @@ final class PlayerTests: XCTestCase {
     
     func testFirst() {
         match[initial].play(match).map {
-            match[$0.point] = $0.bead
+            match[$0.point] = $0.item?.bead
         }
         XCTAssertGreaterThan(match[initial], match[initial.negative])
         if case let .play(wait) = match.state {
@@ -32,13 +32,13 @@ final class PlayerTests: XCTestCase {
         (0 ..< 3).forEach { x in
             (0 ..< 3).forEach { y in
                 guard x != 0 || y != 0 else { return }
-                match[.init(x, y)] = .init(player: initial.negative, bead: .init(), point: .init(x, y))
+                _ = match[.init(x, y)][.init(player: initial.negative, bead: .init())]
             }
         }
         match[initial].play(match).map {
-            match[$0.point] = $0.bead
+            match[$0.point] = $0.item?.bead
         }
-        XCTAssertEqual(initial, match[.init(0, 0)]?.player)
+        XCTAssertEqual(initial, match[.init(0, 0)].item?.player)
     }
     
     func testFirstAttack() {

@@ -2,8 +2,8 @@ import Foundation
 
 public struct Match: Codable {
     public private(set) var state = State.new
-    private var cells = Set(Point.all.map { Cell($0) })
     var players = [Turn : Player]()
+    private var cells = Set(Point.all.map { Cell($0) })
     
     public init() { }
     
@@ -13,14 +13,13 @@ public struct Match: Codable {
         }
         set {
             guard case let .play(wait) = state, let bead = newValue else { return }
-            let cell = self[point][.init(player: wait.player, bead: bead)]
-            cell
+            
+            self[point][.init(player: wait.player, bead: bead)]
                 .join {
                     self[$0]
                 }.forEach {
                     self[$0] = self[$0][wait.player]
                 }
-            self[point] = cell
             
             if cells.filter({ $0.item == nil }).isEmpty {
                 state = .win(.init(self[.first] > self[.second] ? .first : .second))
