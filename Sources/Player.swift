@@ -14,13 +14,18 @@ public struct Player: Codable {
     }
     
     public func play(_ match: Match) -> Cell? {
-        Point.all
-            .filter { point in !match.cells.contains { $0.point == point } }
-            .flatMap { point in
+        Point
+            .all
+            .map {
+                match[$0] as Cell
+            }.filter {
+                $0.item == nil
+            }.flatMap { cell in
                 beads
-                    .filter { !match[$0] }
-                    .map {
-                        .init(player: match[id], bead: $0, point: point)
+                    .filter {
+                        !match[$0]
+                    }.map {
+                        cell[.init(player: match[id], bead: $0)]
                     }
             }.max {
                 $0.join {

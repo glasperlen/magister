@@ -1,26 +1,45 @@
 import Foundation
 
 public struct Cell: Codable, Hashable {
-    public internal(set) var player: Match.Turn
-    public let bead: Bead
+    public private(set) var item: Item?
     public let point: Point
+    public let power: Power
     
-    func join(transform: (Point) -> Self?) -> [Point] {
+    init(_ point: Point, _ power: Power = .none) {
+        self.point = point
+        self.power = power
+    }
+    
+    subscript(_ item: Item) -> Self {
+        var cell = self
+        cell.item = item
+        return cell
+    }
+    
+    subscript(_ player: Match.Turn) -> Self {
+        var cell = self
+        cell.item!.player = player
+        return cell
+    }
+    
+    func join(_ transform: (Point) -> Self?) -> [Point] {
         point.relations.compactMap { relation in
             transform(point[relation]).map { cell in
                 (relation, cell)
             }
         }.filter {
-            $1.player != player
+            $1.item != nil
+        }.filter {
+            $1.item!.player != item!.player
         }.filter { relation, cell in
             {
                 switch relation {
-                case .top: return $0 > cell.bead[.bottom]
-                case .bottom: return $0 > cell.bead[.top]
-                case .left: return $0 > cell.bead[.right]
-                case .right: return $0 > cell.bead[.left]
+                case .top: return $0 > cell.item!.bead[.bottom]
+                case .bottom: return $0 > cell.item!.bead[.top]
+                case .left: return $0 > cell.item!.bead[.right]
+                case .right: return $0 > cell.item!.bead[.left]
                 }
-            } (bead[relation])
+            } (item!.bead[relation])
         }.map(\.1.point)
     }
     

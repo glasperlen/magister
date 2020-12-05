@@ -1,28 +1,28 @@
 import Foundation
 
 public struct Match: Codable {
-    public private(set) var cells = Set<Cell>()
     public private(set) var state = State.new
+    private var cells = Set(Point.all.map { Cell($0) })
     var players = [Turn : Player]()
     
     public init() { }
     
-    public subscript(_ point: Point) -> Bead {
+    public subscript(_ point: Point) -> Bead? {
         get {
-            cells.first { $0.point == point }!.bead
+            self[point].item?.bead
         }
         set {
-            guard case let .play(wait) = state else { return }
-            cells.insert({
-                $0.join {
+            guard case let .play(wait) = state, let bead = newValue else { return }
+            let cell = self[point][.init(player: wait.player, bead: bead)]
+            cell
+                .join {
                     self[$0]
                 }.forEach {
-                    self[$0]!.player = wait.player
+                    self[$0] = self[$0][wait.player]
                 }
-                return $0
-            } (Cell(player: wait.player, bead: newValue, point: point)))
+            self[point] = cell
             
-            if cells.count == 9 {
+            if cells.filter({ $0.item == nil }).isEmpty {
                 state = .win(.init(self[.first] > self[.second] ? .first : .second))
             } else {
                 state = .play(.init(wait.player.negative))
@@ -30,20 +30,18 @@ public struct Match: Codable {
         }
     }
     
-    public subscript(_ point: Point) -> Cell? {
+    public subscript(_ point: Point) -> Cell {
         get {
-            cells.first { $0.point == point }
+            cells.first { $0.point == point }!
         }
         set {
-            newValue.map {
-                cells.remove($0)
-                cells.insert($0)
-            }
+            cells.remove(newValue)
+            cells.insert(newValue)
         }
     }
     
     public subscript(_ bead: Bead) -> Bool {
-        cells.contains { $0.bead == bead }
+        cells.contains { $0.item?.bead == bead }
     }
     
     public subscript(_ id: String) -> Turn {
@@ -55,7 +53,7 @@ public struct Match: Codable {
     }
     
     public subscript(_ player: Turn) -> Int {
-        cells.filter { $0.player == player }.count
+        cells.filter { $0.item?.player == player }.count
     }
     
     mutating public func timeout() {
