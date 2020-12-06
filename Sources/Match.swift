@@ -9,18 +9,17 @@ public struct Match: Codable {
     
     public subscript(_ point: Point) -> Bead? {
         get {
-            self[point].item?.bead
+            self[point]?.bead
         }
         set {
             guard case let .play(wait) = state, let bead = newValue else { return }
-            let cell = self[point][.init(player: wait.player, bead: bead)]
-            cell
+            self[point] = .init(player: wait.player, bead: bead)
+            self[point]
                 .join {
                     self[$0]
                 }.forEach {
                     self[$0] = self[$0][wait.player]
                 }
-            self[point] = cell
             
             if cells.filter({ $0.item == nil }).isEmpty {
                 state = .win(.init(self[.first] > self[.second] ? .first : .second))
@@ -30,13 +29,14 @@ public struct Match: Codable {
         }
     }
     
-    public subscript(_ point: Point) -> Cell {
+    public subscript(_ point: Point) -> Cell.Item? {
         get {
-            cells.first { $0.point == point }!
+            cells.first { $0.point == point }!.item
         }
         set {
-            cells.remove(newValue)
-            cells.insert(newValue)
+            newValue.map {
+                self[point] = self[point][$0]
+            }
         }
     }
     
@@ -82,6 +82,16 @@ public struct Match: Codable {
         case let .win(winner): state = .end(.init(winner: winner.player, bead: bead))
         case let .timeout(looser): state = .end(.init(winner: looser.player.negative, bead: bead))
         default: break
+        }
+    }
+    
+    subscript(_ point: Point) -> Cell {
+        get {
+            cells.first { $0.point == point }!
+        }
+        set {
+            cells.remove(newValue)
+            cells.insert(newValue)
         }
     }
 }
