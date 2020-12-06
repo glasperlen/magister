@@ -42,12 +42,12 @@ final class PlayerTests: XCTestCase {
     }
     
     func testFirstAttack() {
-        match[.init(1, 1)] = .init(player: initial.negative, bead: .init(top: 2, bottom: 2, left: 2, right: 1), point: .init(1, 1))
+        _ = match[.init(1, 1)][.init(player: initial.negative, bead: .init(top: 2, bottom: 2, left: 2, right: 1))]
         match.players[initial] = .init(id: "test", name: "", beads: [.init(left: 2)])
         match[initial].play(match).map {
-            match[$0.point] = $0.bead
+            match[$0.point] = $0.item?.bead
         }
-        XCTAssertEqual(initial, match[.init(2, 1)]?.player)
+        XCTAssertEqual(initial, match[.init(2, 1)].item?.player)
     }
     
     func testRobot() {
