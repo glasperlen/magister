@@ -13,13 +13,14 @@ public struct Match: Codable {
         }
         set {
             guard case let .play(wait) = state, let bead = newValue else { return }
-            
-            self[point][.init(player: wait.player, bead: bead)]
+            let cell = self[point][.init(player: wait.player, bead: bead)]
+            cell
                 .join {
                     self[$0]
                 }.forEach {
                     self[$0] = self[$0][wait.player]
                 }
+            self[point] = cell
             
             if cells.filter({ $0.item == nil }).isEmpty {
                 state = .win(.init(self[.first] > self[.second] ? .first : .second))

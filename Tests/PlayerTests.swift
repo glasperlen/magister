@@ -32,7 +32,7 @@ final class PlayerTests: XCTestCase {
         (0 ..< 3).forEach { x in
             (0 ..< 3).forEach { y in
                 guard x != 0 || y != 0 else { return }
-                _ = match[.init(x, y)][.init(player: initial.negative, bead: .init())]
+                match[.init(x, y)] = match[.init(x, y)][.init(player: initial.negative, bead: .init())]
             }
         }
         match[initial].play(match).map {
@@ -42,7 +42,7 @@ final class PlayerTests: XCTestCase {
     }
     
     func testFirstAttack() {
-        _ = match[.init(1, 1)][.init(player: initial.negative, bead: .init(top: 2, bottom: 2, left: 2, right: 1))]
+        match[.init(1, 1)] = match[.init(1, 1)][.init(player: initial.negative, bead: .init(top: 2, bottom: 2, left: 2, right: 1))]
         match.players[initial] = .init(id: "test", name: "", beads: [.init(left: 2)])
         match[initial].play(match).map {
             match[$0.point] = $0.item?.bead

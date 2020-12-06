@@ -60,7 +60,7 @@ final class PlayTests: XCTestCase {
         (0 ..< 3).forEach { x in
             (0 ..< 3).forEach { y in
                 guard x != 0 || y != 0 else { return }
-                _ = match[.init(x, y)][.init(player: initial, bead: .init())]
+                match[.init(x, y)] = match[.init(x, y)][.init(player: initial, bead: .init())]
             }
         }
         match[initial].play(match).map {
@@ -76,13 +76,13 @@ final class PlayTests: XCTestCase {
     
     func testFinishWin() {
         (0 ..< 3).map { .init($0, 0) }.forEach {
-            _ = match[$0][.init(player: initial, bead: .init())]
+            match[$0] = match[$0][.init(player: initial, bead: .init())]
         }
         (0 ..< 3).map { .init($0, 2) }.forEach {
-            _ = match[$0][.init(player: initial.negative, bead: .init())]
+            match[$0] = match[$0][.init(player: initial.negative, bead: .init())]
         }
-        _ = match[.init(0, 1)][.init(player: initial.negative, bead: .init())]
-        _ = match[.init(1, 1)][.init(player: initial.negative, bead: .init())]
+        match[.init(0, 1)] = match[.init(0, 1)][.init(player: initial.negative, bead: .init())]
+        match[.init(1, 1)] = match[.init(1, 1)][.init(player: initial.negative, bead: .init())]
         match[.init(2, 1)] = .init()
         XCTAssertGreaterThan(match[initial.negative], match[initial])
         if case let .win(wait) = match.state {
@@ -120,13 +120,13 @@ final class PlayTests: XCTestCase {
     
     func testFinishWinTimeout() {
         (0 ..< 3).map { .init($0, 0) }.forEach {
-            _ = match[$0][.init(player: initial, bead: .init())]
+            match[$0] = match[$0][.init(player: initial, bead: .init())]
         }
         (0 ..< 3).map { .init($0, 2) }.forEach {
-            _ = match[$0][.init(player: initial.negative, bead: .init())]
+            match[$0] = match[$0][.init(player: initial.negative, bead: .init())]
         }
-        _ = match[.init(0, 1)][.init(player: initial.negative, bead: .init())]
-        _ = match[.init(1, 1)][.init(player: initial.negative, bead: .init())]
+        match[.init(0, 1)] = match[.init(0, 1)][.init(player: initial.negative, bead: .init())]
+        match[.init(1, 1)] = match[.init(1, 1)][.init(player: initial.negative, bead: .init())]
         match[.init(2, 1)] = .init()
         XCTAssertGreaterThan(match[initial.negative], match[initial])
         if case let .win(wait) = match.state {
