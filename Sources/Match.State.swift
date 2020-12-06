@@ -48,7 +48,7 @@ extension Match {
             }
         }
         
-        private enum Key: String, Codable, CodingKey {
+        private enum Key: Int, Codable, CodingKey {
             case
             new,
             matching,

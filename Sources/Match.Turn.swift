@@ -1,7 +1,7 @@
 import Foundation
 
 extension Match {
-    public enum Turn: UInt8, Codable, CaseIterable {
+    public enum Turn: Int, Codable, CaseIterable {
         case
         first,
         second

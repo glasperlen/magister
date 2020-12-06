@@ -28,7 +28,7 @@ extension Cell {
             }
         }
         
-        private enum Key: String, Codable, CodingKey {
+        private enum Key: Int, Codable, CodingKey {
             case
             none,
             number,

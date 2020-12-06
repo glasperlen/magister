@@ -40,13 +40,4 @@ public struct Point: Codable, Hashable {
         case .right: return .init(x + 1, y)
         }
     }
-    
-    public func hash(into: inout Hasher) {
-        into.combine(x)
-        into.combine(y)
-    }
-    
-    public static func == (lhs: Self, rhs: Self) -> Bool {
-        lhs.x == rhs.x && lhs.y == rhs.y
-    }
 }

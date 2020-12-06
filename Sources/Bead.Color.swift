@@ -1,7 +1,7 @@
 import Foundation
 
 extension Bead {
-    public enum Color: UInt8, Codable, CaseIterable {
+    public enum Color: Int, Codable, CaseIterable {
         case
         blue,
         pink,
